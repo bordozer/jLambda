@@ -13,7 +13,7 @@ variable "lambda_payload_filename" {
 }
 
 variable "lambda_function_handler" {
-  default = "handler.LambdaHandler"
+  default = "com.bordozer.lambda.LambdaHandler"
 }
 
 variable "lambda_runtime" {
@@ -22,8 +22,4 @@ variable "lambda_runtime" {
 
 variable "api_path" {
   default = "{proxy+}"
-}
-
-variable "api_env_stage_name" {
-  default = "terraform-lambda-java-stage"
 }

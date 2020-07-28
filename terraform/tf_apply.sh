@@ -15,4 +15,6 @@ terraform -version
 terraform init \
   -backend-config="key=${SERVICE_NAME}.${ENV}.tfstate"
 
+terraform plan
+
 terraform apply -var-file="env/${ENV}.tfvars" -auto-approve
