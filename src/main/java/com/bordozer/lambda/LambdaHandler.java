@@ -9,12 +9,12 @@ import org.json.simple.JSONObject;
 
 import java.util.Map;
 
-public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
+public class LambdaHandler implements RequestHandler<Map<String, String>, JSONObject> {
 
     private static final String BODY = FileUtils.readSystemResource("fake-response.json");
 
     @Override
-    public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
+    public JSONObject handleRequest(final Map<String, String> input, final Context context) {
         final LambdaLogger logger = context.getLogger();
 
         logger.log(LoggableJson.of(input).toString());
