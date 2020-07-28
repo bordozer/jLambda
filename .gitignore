@@ -13,3 +13,4 @@
 *.tfstate
 *.tfstate.backup
 
+/terraform/lambda/.terraform/

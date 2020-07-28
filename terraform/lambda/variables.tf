@@ -9,7 +9,7 @@ variable "region" {
 }
 
 variable "lambda_payload_filename" {
-  default = "../build/libs/lambda.jar"
+  default = "../../build/libs/lambda.jar"
 }
 
 variable "lambda_function_handler" {
