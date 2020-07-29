@@ -28,5 +28,9 @@ resource "aws_lambda_permission" "lambda_permission" {
   principal     = "apigateway.amazonaws.com"
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_deployment.path_resource_deploy.execution_arn}/*/GET/${var.api_path}"
+//  source_arn = "${aws_api_gateway_deployment.path_resource_deploy.execution_arn}/GET/${var.api_path}}"
+//  source_arn = "${aws_api_gateway_rest_api.gateway.execution_arn}/*/*/*"
+//  source_arn = "${aws_api_gateway_rest_api.gateway.execution_arn}/${local.lambda_stage}/GET/${var.api_path}}"
+//  source_arn = "${aws_api_gateway_rest_api.gateway.execution_arn}/${local.lambda_stage}/${var.api_path}/*"
+  source_arn = "${aws_api_gateway_deployment.path_resource_deploy.execution_arn}/*"
 }

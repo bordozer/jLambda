@@ -35,7 +35,7 @@ variable "lambda_runtime" {
 }
 
 variable "api_path" {
-  default = "api"
+  default = "{proxy+}"
 }
 
 locals {
@@ -45,4 +45,5 @@ locals {
     Environment = var.environment_name
   }
   lambda_function_name = "tf-${var.service_instance_name}-function"
+  lambda_stage = "${var.environment_name}-stage"
 }

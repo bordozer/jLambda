@@ -35,7 +35,7 @@ resource "aws_api_gateway_integration" "path_resource_integration" {
 resource "aws_api_gateway_deployment" "path_resource_deploy" {
   depends_on  = [aws_api_gateway_integration.path_resource_integration]
   rest_api_id = aws_api_gateway_rest_api.gateway.id
-  stage_name  = "${var.environment_name}-stage"
+  stage_name  = local.lambda_stage
 }
 
 # Unfortunately the proxy resource cannot match an empty path at the root of the API.
