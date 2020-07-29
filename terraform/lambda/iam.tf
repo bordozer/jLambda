@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "lambda_iam_policy" {
 EOF
 }
 
-resource "aws_iam_role_policy" "cloudwatch_iam__policy" {
+resource "aws_iam_role_policy" "cloudwatch_iam_policy" {
   name = "tf-${var.service_instance_name}-cloudwatch-iam-role-policy"
   role = aws_iam_role.lambda_iam_role.id
   policy = <<EOF
