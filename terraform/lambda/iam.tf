@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_iam_role" {
-  name = "lambda-invoke-role"
+  name = "${var.service_instance_name}-invoke-role"
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -18,7 +18,7 @@ POLICY
 }
 
 resource "aws_iam_policy" "lambda_iam_policy" {
-  name = "lambda-invoke-policy"
+  name = "${var.service_instance_name}-invoke-policy"
   path = "/"
 
   policy = <<POLICY

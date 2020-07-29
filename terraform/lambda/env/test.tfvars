@@ -1,2 +1,2 @@
-service_instance_name = "lambda-test"
+service_instance_name = "jlambda-test"
 environment_name = "test"

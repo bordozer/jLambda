@@ -1,8 +1,8 @@
-resource "aws_lambda_function" "java_lambda_function" {
+resource "aws_lambda_function" "lambda_function" {
   runtime           = var.lambda_runtime
   filename          = var.lambda_payload_filename
 //  source_code_hash  = base64sha256(file(var.lambda_payload_filename))
-  function_name     = "java_lambda_function"
+  function_name     = var.service_instance_name
 
   handler           = var.lambda_function_handler
   timeout           = 60
@@ -17,12 +17,12 @@ resource "aws_lambda_function" "java_lambda_function" {
   }
 }
 
-resource "aws_lambda_permission" "java_lambda_function" {
+resource "aws_lambda_permission" "lambda_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.java_lambda_function.function_name
+  function_name = aws_lambda_function.lambda_function.function_name
   principal     = "apigateway.amazonaws.com"
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_deployment.java_lambda_deploy.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_deployment.lambda_deploy.execution_arn}/*/*"
 }
