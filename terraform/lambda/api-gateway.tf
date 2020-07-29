@@ -9,32 +9,38 @@ resource "aws_api_gateway_rest_api" "gateway" {
   tags = local.common_tags
 }
 
-resource "aws_api_gateway_resource" "api_resource" {
+resource "aws_api_gateway_resource" "path_resource" {
   rest_api_id = aws_api_gateway_rest_api.gateway.id
   parent_id   = aws_api_gateway_rest_api.gateway.root_resource_id
   path_part   = var.api_path
 }
 
-resource "aws_api_gateway_method" "api_resource_method" {
+resource "aws_api_gateway_method" "path_resource_method" {
   rest_api_id   = aws_api_gateway_rest_api.gateway.id
-  resource_id   = aws_api_gateway_resource.api_resource.id
+  resource_id   = aws_api_gateway_resource.path_resource.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "lambda_integration" {
+resource "aws_api_gateway_integration" "path_resource_integration" {
   rest_api_id             = aws_api_gateway_rest_api.gateway.id
-  resource_id             = aws_api_gateway_resource.api_resource.id
-  http_method             = aws_api_gateway_method.api_resource_method.http_method
+  resource_id             = aws_api_gateway_resource.path_resource.id
+  http_method             = aws_api_gateway_method.path_resource_method.http_method
 
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
 
+resource "aws_api_gateway_deployment" "path_resource_deploy" {
+  depends_on  = [aws_api_gateway_integration.path_resource_integration]
+  rest_api_id = aws_api_gateway_rest_api.gateway.id
+  stage_name  = "${var.environment_name}-stage"
+}
+
 # Unfortunately the proxy resource cannot match an empty path at the root of the API.
 # To handle that, a similar configuration must be applied to the root resource that is built in to the REST API object:
-resource "aws_api_gateway_method" "lambda_method_root" {
+/*resource "aws_api_gateway_method" "lambda_method_root" {
   rest_api_id   = aws_api_gateway_rest_api.gateway.id
   resource_id   = aws_api_gateway_rest_api.gateway.root_resource_id
   http_method   = "GET"
@@ -49,13 +55,10 @@ resource "aws_api_gateway_integration" "lambda_integration_root" {
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
-}
+}*/
 
-resource "aws_api_gateway_deployment" "lambda_deploy" {
-  depends_on  = [aws_api_gateway_integration.lambda_integration]
-  rest_api_id = aws_api_gateway_rest_api.gateway.id
-  stage_name  = var.service_instance_name
-}
+
+
 
 /*resource "aws_api_gateway_domain_name" "example" {
   certificate_arn = var.certificate_arn

@@ -9,7 +9,7 @@ resource "aws_lambda_function" "lambda_function" {
   memory_size       = 256
   role              = aws_iam_role.lambda_iam_role.arn
   depends_on        = [aws_iam_role_policy_attachment.aws_iam_role_policy_attachment]
-  kms_key_arn       = data.aws_kms_key.aws_lambda_kms_key.arn
+//  kms_key_arn       = data.aws_kms_key.aws_lambda_kms_key.arn
   description       = "${var.service_instance_name}: test lambda function"
 
   environment {
@@ -28,5 +28,5 @@ resource "aws_lambda_permission" "lambda_permission" {
   principal     = "apigateway.amazonaws.com"
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_deployment.lambda_deploy.execution_arn}/${var.api_path}"
+  source_arn = "${aws_api_gateway_deployment.path_resource_deploy.execution_arn}/*/GET/${var.api_path}"
 }
