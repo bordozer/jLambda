@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SERVICE_NAME="jlambda"
+SERVICE_NAME="jLambda"
 # env: `test` or `prod`
 ENV=$1
 if [ -z "$ENV" ]
