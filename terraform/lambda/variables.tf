@@ -35,7 +35,7 @@ variable "lambda_runtime" {
 }
 
 variable "api_path" {
-  default = "{proxy+}"
+  default = "api"
 }
 
 locals {
