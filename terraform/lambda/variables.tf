@@ -1,5 +1,5 @@
 variable "service_name" {
-  default = "lambda"
+  default = "jlambda"
 }
 variable "service_instance_name" {}
 variable "environment_name" {}
@@ -9,15 +9,15 @@ variable "region" {
 }
 
 variable "lambda_payload_filename" {
-  default = "../../build/libs/lambda.jar"
+  default = "../../build/libs/jlambda.jar"
 }
 
 variable "lambda_function_handler" {
-  default = "com.bordozer.lambda.LambdaHandler"
+  default = "com.bordozer.jlambda.LambdaHandler"
 }
 
 variable "lambda_runtime" {
-  default = "java11"
+  default = "java8"
 }
 
 variable "api_path" {

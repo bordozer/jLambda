@@ -1,4 +1,4 @@
-package com.bordozer.lambda;
+package com.bordozer.jlambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
