@@ -15,6 +15,8 @@ resource "aws_iam_role" "lambda_iam_role" {
   ]
 }
 POLICY
+
+  tags = local.common_tags
 }
 
 resource "aws_iam_policy" "lambda_iam_policy" {

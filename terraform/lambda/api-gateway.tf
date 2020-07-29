@@ -1,6 +1,8 @@
 resource "aws_api_gateway_rest_api" "lambda_api" {
-  name        = "java_lambda_api"
-  description = "Java Lambda on Terraform"
+  name        = "tf-${var.service_instance_name}-lambda-api"
+  description = "${var.service_instance_name}: lambda API"
+
+  tags = local.common_tags
 }
 
 resource "aws_api_gateway_resource" "lambda_api_gateway" {
@@ -46,7 +48,7 @@ resource "aws_api_gateway_integration" "lambda_integration_root" {
 }
 
 resource "aws_api_gateway_deployment" "lambda_deploy" {
-  depends_on  = ["aws_api_gateway_integration.lambda_integration"]
+  depends_on  = [aws_api_gateway_integration.lambda_integration]
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   stage_name  = var.service_instance_name
 }
