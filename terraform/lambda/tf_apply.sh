@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SERVICE_NAME="lambda"
+SERVICE_NAME="jlambda"
 
-# env: `staging` or `prod`
+# env: `test` or `prod`
 ENV=$1
 if [ -z "$ENV" ]
 then

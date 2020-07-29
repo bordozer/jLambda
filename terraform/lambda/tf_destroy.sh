@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-SERVICE_NAME="lambda"
-# env: `staging` or `prod`
+SERVICE_NAME="jlambda"
+# env: `test` or `prod`
 ENV=$1
 if [ -z "$ENV" ]
 then
-      echo "ENV is empty. Provide 'staging' or 'prod'"
+      echo "ENV is empty. Provide 'test' or 'prod'"
       exit 1;
 fi
 

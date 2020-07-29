@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "lambda_api" {
-  name        = "tf-${var.service_instance_name}-lambda-api"
-  description = "${var.service_instance_name}: lambda API"
+  name        = "tf-${var.service_instance_name}-api-gateway"
+  description = "${var.service_instance_name}: lambda API gateway"
 
   tags = local.common_tags
 }
@@ -52,3 +52,22 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api.id
   stage_name  = var.service_instance_name
 }
+
+/*resource "aws_api_gateway_domain_name" "example" {
+  certificate_arn = var.certificate_arn
+  domain_name     = var.domain_name
+}
+
+# Example DNS record using Route53.
+# Route53 is not specifically required; any DNS host can be used.
+resource "aws_route53_record" "example" {
+  name    = aws_api_gateway_domain_name.example.domain_name
+  type    = "A"
+  zone_id = var.route53_zone_id
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_api_gateway_domain_name.example.cloudfront_domain_name
+    zone_id                = aws_api_gateway_domain_name.example.cloudfront_zone_id
+  }
+}*/

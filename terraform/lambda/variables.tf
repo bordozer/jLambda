@@ -12,6 +12,16 @@ variable "aws_lambda_kms_key_id" {
   default = "4b7362d4-1df7-4ffa-9933-f1e0a06858e6"
 }
 
+/*variable "domain_name" {}
+variable "route53_zone_id" {
+  default = "ZYQ37WWIE7SAZ"
+}
+
+// The certificate should be in 'us-east-1'
+variable "certificate_arn" {
+  default = "arn:aws:acm:us-east-1:899415655760:certificate/77fe5ab9-3abb-4210-8919-2dea592dc857"
+}*/
+
 variable "lambda_payload_filename" {
   default = "../../build/libs/jlambda.jar"
 }
