@@ -19,11 +19,10 @@ POLICY
   tags = local.common_tags
 }
 
-resource "aws_iam_policy" "lambda_iam_policy" {
-  name = "tf-${var.service_instance_name}-invoke-policy"
-  path = "/"
-
-  policy = <<POLICY
+resource "aws_iam_role_policy" "logs_iam_policy" {
+  name = "tf-${var.service_instance_name}-logs-iam-role-policy"
+  role = aws_iam_role.lambda_iam_role.id
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -35,14 +34,38 @@ resource "aws_iam_policy" "lambda_iam_policy" {
         "logs:PutLogEvents"
       ],
       "Resource": "*"
-    },
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "lambda_iam_policy" {
+  name = "tf-${var.service_instance_name}-lambda-iam-role-policy"
+  role = aws_iam_role.lambda_iam_role.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
       "Effect": "Allow",
       "Action": [
         "lambda:InvokeFunction"
       ],
       "Resource": "*"
-    },
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "cloudwatch_iam__policy" {
+  name = "tf-${var.service_instance_name}-cloudwatch-iam-role-policy"
+  role = aws_iam_role.lambda_iam_role.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
       "Effect": "Allow",
       "Action": [
@@ -51,19 +74,27 @@ resource "aws_iam_policy" "lambda_iam_policy" {
         "cloudwatch:List*"
       ],
       "Resource": "*"
-    },
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "kms_iam_policy" {
+  name = "tf-${var.service_instance_name}-kms-iam-role-policy"
+  role = aws_iam_role.lambda_iam_role.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
       "Effect": "Allow",
       "Action": [
           "kms:Decrypt"
       ],
       "Resource": "*"
-      }
+    }
   ]
 }
-POLICY
-}
-resource "aws_iam_role_policy_attachment" "aws_iam_role_policy_attachment" {
-  role       = aws_iam_role.lambda_iam_role.name
-  policy_arn = aws_iam_policy.lambda_iam_policy.arn
+EOF
 }

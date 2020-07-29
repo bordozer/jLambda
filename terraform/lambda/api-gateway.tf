@@ -40,7 +40,7 @@ resource "aws_api_gateway_deployment" "path_resource_deploy" {
 
 # Unfortunately the proxy resource cannot match an empty path at the root of the API.
 # To handle that, a similar configuration must be applied to the root resource that is built in to the REST API object:
-/*resource "aws_api_gateway_method" "lambda_method_root" {
+resource "aws_api_gateway_method" "lambda_method_root" {
   rest_api_id   = aws_api_gateway_rest_api.gateway.id
   resource_id   = aws_api_gateway_rest_api.gateway.root_resource_id
   http_method   = "GET"
@@ -55,7 +55,7 @@ resource "aws_api_gateway_integration" "lambda_integration_root" {
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
-}*/
+}
 
 
 
