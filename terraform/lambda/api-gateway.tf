@@ -2,6 +2,10 @@ resource "aws_api_gateway_rest_api" "lambda_api" {
   name        = "tf-${var.service_instance_name}-api-gateway"
   description = "${var.service_instance_name}: lambda API gateway"
 
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
+
   tags = local.common_tags
 }
 
@@ -23,7 +27,7 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   resource_id             = aws_api_gateway_resource.lambda_api_gateway.id
   http_method             = aws_api_gateway_method.lambda_method.http_method
 
-  integration_http_method = "POST"
+  integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
@@ -42,7 +46,7 @@ resource "aws_api_gateway_integration" "lambda_integration_root" {
   resource_id = aws_api_gateway_method.lambda_method_root.resource_id
   http_method = aws_api_gateway_method.lambda_method_root.http_method
 
-  integration_http_method = "POST"
+  integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function.invoke_arn
 }
