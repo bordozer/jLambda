@@ -8,7 +8,6 @@ import com.google.common.io.Resources;
 import lombok.SneakyThrows;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Map;
 public class LambdaHandler implements RequestHandler<Map<String, String>, JSONObject> {
 
     @Override
-    @SneakyThrows
     public JSONObject handleRequest(final Map<String, String> input, final Context context) {
         final LambdaLogger logger = context.getLogger();
 
@@ -26,10 +24,13 @@ public class LambdaHandler implements RequestHandler<Map<String, String>, JSONOb
         final String body = readResource();
         responseObject.put("body", body);
 
+        logger.log(String.format("Response: %s", LoggableJson.of(body).toString()));
+
         return responseObject;
     }
 
-    private String readResource() throws IOException {
+    @SneakyThrows
+    private String readResource() {
         final URL url = Resources.getResource("fake-response.json");
         return Resources.toString(url, StandardCharsets.UTF_8);
     }
