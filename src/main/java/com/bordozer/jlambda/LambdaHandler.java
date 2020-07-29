@@ -12,10 +12,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class LambdaHandler implements RequestHandler<Map<String, String>, JSONObject> {
+public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
     @Override
-    public JSONObject handleRequest(final Map<String, String> input, final Context context) {
+    public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
         final LambdaLogger logger = context.getLogger();
 
         logger.log(String.format("Input: %s", LoggableJson.of(input).toString()));

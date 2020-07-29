@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "log_group" {
-  name_prefix = "/tf-${var.service_instance_name}/"
+  name_prefix = "/aws/lambda/tf-${var.service_instance_name}/"
   tags = local.common_tags
 }
 

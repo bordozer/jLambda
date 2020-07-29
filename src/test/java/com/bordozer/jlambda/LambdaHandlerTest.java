@@ -25,7 +25,7 @@ class LambdaHandlerTest {
         final LambdaHandler lambdaHandler = new LambdaHandler();
         final Context ctx = createContext();
 
-        final Map<String, String> map = new HashMap<>();
+        final Map<String, Object> map = new HashMap<>();
         map.put("key1", "value1");
         map.put("key2", "value2");
 
