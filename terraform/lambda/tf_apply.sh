@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVICE_NAME="jLambda"
+SERVICE_NAME="jlambda"
 
 # env: `test` or `prod`
 ENV=$1

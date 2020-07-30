@@ -1,5 +1,5 @@
 variable "service_name" {
-  default = "jLambda"
+  default = "jlambda"
 }
 variable "service_instance_name" {}
 variable "environment_name" {}
