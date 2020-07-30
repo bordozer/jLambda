@@ -22,7 +22,6 @@ class RemoteServiceHandlerTest {
     private static final String SERVER_URL = "http://localhost";
     private static final int SERVER_PORT = 7001;
 
-    private static final String EXPECTED_RESPONSE = readSystemResource("lambda-expected-response.json");
     private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-service-response.json");
 
     private WireMockServer wm;
@@ -56,6 +55,6 @@ class RemoteServiceHandlerTest {
         final var response = RemoteServiceHandler.get(SERVER_URL, SERVER_PORT);
 
         // then
-        JSONAssert.assertEquals(EXPECTED_RESPONSE, response, false);
+        JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response, false);
     }
 }
