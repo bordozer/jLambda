@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.skyscreamer.jsonassert.JSONAssert;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
@@ -63,32 +65,38 @@ class BemobiIntegrationTest {
         final var siteId = System.getenv(SITE_ID_ENV);
         final var message = "download bsafe"; // The message string should not be URL encoded
 
-        final var currentTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-
-        /*final var calculatedSignature = new StringBuilder()
-                .append(ACCOUNT_ID_PARAM.toLowerCase()).append(accountId)
-                .append(CURRENT_TIME_PARAM.toLowerCase()).append(currentTime)
-                .append(MESSAGE_PARAM.toLowerCase()).append(message.toLowerCase())
-                .append(MSISDN_PARAM.toLowerCase()).append(msisdn.toLowerCase())
-                .append(OPX_USER_ID_PARAM.toLowerCase()).append(opxUserId)
-                .append(SITE_ID_PARAM.toLowerCase()).append(siteId)
-                .toString();*/
-
-
         final Map<String, String> map = new HashMap<>();
         map.put(ACCOUNT_ID_PARAM, accountId);
-        map.put(CURRENT_TIME_PARAM, String.valueOf(currentTime));
+        map.put(CURRENT_TIME_PARAM, String.valueOf(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
         map.put(MESSAGE_PARAM, message);
         map.put(MSISDN_PARAM, msisdn);
         map.put(OPX_USER_ID_PARAM, opxUserId);
         map.put(SITE_ID_PARAM, siteId);
 
-        final var calculatedSignature = map.keySet().stream()
+        /*final String concatenatedParameters = map
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        keyToLowercase(),
+                        mapValueTransformer(),
+                        (e1, e2) -> e2,
+                        LinkedHashMap::new)
+                )
+                .entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + entry.getValue())
+                .collect(Collectors.joining());*/
+        final var concatenatedParameters = map.keySet().stream()
                 .sorted()
                 .map(parameter -> String.format("%s%s", parameter.toLowerCase(), map.get(parameter).toLowerCase()))
                 .collect(Collectors.joining());
-        final var authString = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, apiKey).hmacHex(calculatedSignature);
+        log.info("Concatenated parameters: \"{}\"", concatenatedParameters);
+
+        final byte[] bemobiKeyBytes = convertHexStr2Bytes(apiKey);
+        final String authString = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, bemobiKeyBytes).hmacHex(concatenatedParameters);
         log.info("AuthString: \"{}\"", authString);
+
         map.put(AUTH_STRING_PARAM, authString);
 
         final var serviceRequest = RemoteServiceRequest.builder()
@@ -105,5 +113,27 @@ class BemobiIntegrationTest {
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);
         JSONAssert.assertEquals(BEMOBI_EXPECTED_RESPONSE, response.getResponseBody(), false);
+    }
+
+    private Function<Map.Entry<String, String>, String> keyToLowercase() {
+        return entry -> entry.getKey().toLowerCase();
+    }
+
+    private static Function<Map.Entry<String, String>, String> mapValueTransformer() {
+        return entry -> entry.getValue().toLowerCase();
+    }
+
+    private static byte[] convertHexStr2Bytes(String hex) {
+        // Adding one byte to get the right conversion
+        // Values starting with "0" can be converted
+        byte[] bArray = new BigInteger("10" + hex, 16).toByteArray();
+
+        // Copy all the REAL bytes, not the "first"
+        byte[] ret = new byte[bArray.length - 1];
+        if (ret.length >= 0){
+            System.arraycopy(bArray, 1, ret, 0, ret.length);
+        }
+
+        return ret;
     }
 }
