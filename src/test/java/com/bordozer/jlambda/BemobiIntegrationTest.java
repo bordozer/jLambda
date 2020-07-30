@@ -10,8 +10,10 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.LambdaHandler.SERVER_HOST;
@@ -63,24 +65,30 @@ class BemobiIntegrationTest {
 
         final var currentTime = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
-        final var srt = new StringBuilder()
+        /*final var calculatedSignature = new StringBuilder()
                 .append(ACCOUNT_ID_PARAM.toLowerCase()).append(accountId)
                 .append(CURRENT_TIME_PARAM.toLowerCase()).append(currentTime)
                 .append(MESSAGE_PARAM.toLowerCase()).append(message.toLowerCase())
                 .append(MSISDN_PARAM.toLowerCase()).append(msisdn.toLowerCase())
                 .append(OPX_USER_ID_PARAM.toLowerCase()).append(opxUserId)
                 .append(SITE_ID_PARAM.toLowerCase()).append(siteId)
-                .toString();
-        final var authString = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, apiKey).hmacHex(srt);
-        log.info("AuthString: \"{}\"", authString);
+                .toString();*/
 
-        final Map<String, String> map = new LinkedHashMap<>();
+
+        final Map<String, String> map = new HashMap<>();
         map.put(ACCOUNT_ID_PARAM, accountId);
         map.put(CURRENT_TIME_PARAM, String.valueOf(currentTime));
         map.put(MESSAGE_PARAM, message);
         map.put(MSISDN_PARAM, msisdn);
         map.put(OPX_USER_ID_PARAM, opxUserId);
         map.put(SITE_ID_PARAM, siteId);
+
+        final var calculatedSignature = map.keySet().stream()
+                .sorted()
+                .map(parameter -> String.format("%s%s", parameter.toLowerCase(), map.get(parameter).toLowerCase()))
+                .collect(Collectors.joining());
+        final var authString = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, apiKey).hmacHex(calculatedSignature);
+        log.info("AuthString: \"{}\"", authString);
         map.put(AUTH_STRING_PARAM, authString);
 
         final var serviceRequest = RemoteServiceRequest.builder()
