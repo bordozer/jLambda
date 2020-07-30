@@ -1,4 +1,4 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.model;
 
 import lombok.Builder;
 import lombok.Getter;

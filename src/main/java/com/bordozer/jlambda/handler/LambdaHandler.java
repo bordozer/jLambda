@@ -1,12 +1,15 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.utils.CommonUtils;
 import org.json.simple.JSONObject;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
@@ -24,18 +27,19 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
 
-        final var httpParametersMap = Collections.<String, String>emptyMap(); // TODO: set real parameters
+        final Map<String, String> parameters = (Map<String, String>) input.get("queryStringParameters");
+        logger.log(String.format("Parameters: \"%s\"", LoggableJson.of(parameters).toString()));
 
         final var serviceRequest = RemoteServiceRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .parameters(httpParametersMap)
+                .parameters(parameters)
                 .build();
         logger.log(String.format("Remote service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
 
-        final var response = BemobiSmsServiceHandler.get(serviceRequest);
+        final var response = RemoteServiceHandler.get(serviceRequest);
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
         final JSONObject responseObject = new JSONObject();

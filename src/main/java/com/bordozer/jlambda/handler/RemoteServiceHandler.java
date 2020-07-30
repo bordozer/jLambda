@@ -1,5 +1,7 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.handler;
 
+import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.RemoteServiceResponse;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BemobiSmsServiceHandler {
+public class RemoteServiceHandler {
 
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 

@@ -1,5 +1,7 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.handler;
 
+import com.bordozer.jlambda.handler.RemoteServiceHandler;
+import com.bordozer.jlambda.model.RemoteServiceRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +20,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BemobiSmsServiceHandlerTest {
+class RemoteServiceHandlerTest {
 
     private static final String SERVER_SCHEME = "http";
     private static final String SERVER_HOST = "localhost";
@@ -67,7 +69,7 @@ class BemobiSmsServiceHandlerTest {
                 .build();
 
         // when
-        final var response = BemobiSmsServiceHandler.get(serviceRequest);
+        final var response = RemoteServiceHandler.get(serviceRequest);
 
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);

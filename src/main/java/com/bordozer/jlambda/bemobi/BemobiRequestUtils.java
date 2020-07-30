@@ -1,4 +1,4 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.bemobi;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -49,9 +49,5 @@ public final class BemobiRequestUtils {
         }
 
         return ret;
-    }
-
-    public static long getCurrentEpochTime() {
-        return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 }

@@ -1,5 +1,8 @@
-package com.bordozer.jlambda;
+package com.bordozer.jlambda.handler;
 
+import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
+import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.utils.CommonUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -10,18 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
-import static com.bordozer.jlambda.LambdaHandler.SERVER_HOST;
-import static com.bordozer.jlambda.LambdaHandler.SERVER_PATH;
-import static com.bordozer.jlambda.LambdaHandler.SERVER_PORT;
-import static com.bordozer.jlambda.LambdaHandler.SERVER_SCHEME;
+import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_HOST;
+import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PATH;
+import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PORT;
+import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_SCHEME;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-@EnabledIfEnvironmentVariable(named = BemobiSmsServiceHandlerIntegrationTest.API_KEY_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = BemobiSmsServiceHandlerIntegrationTest.ACCOUNT_ID_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = BemobiSmsServiceHandlerIntegrationTest.MSISDN_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = BemobiSmsServiceHandlerIntegrationTest.SITE_ID_ENV, matches = ".*")
-class BemobiSmsServiceHandlerIntegrationTest {
+@EnabledIfEnvironmentVariable(named = BemobiSmsServiceIntegrationTest.API_KEY_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiSmsServiceIntegrationTest.ACCOUNT_ID_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiSmsServiceIntegrationTest.MSISDN_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiSmsServiceIntegrationTest.SITE_ID_ENV, matches = ".*")
+class BemobiSmsServiceIntegrationTest {
 
     public static final String API_KEY_ENV = "API_KEY";
     public static final String ACCOUNT_ID_ENV = "ACCOUNT_ID";
@@ -56,7 +59,7 @@ class BemobiSmsServiceHandlerIntegrationTest {
 
         final Map<String, String> map = new HashMap<>();
         map.put(ACCOUNT_ID_PARAM, accountId);
-        map.put(CURRENT_TIME_PARAM, String.valueOf(BemobiRequestUtils.getCurrentEpochTime()));
+        map.put(CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
         map.put(MESSAGE_PARAM, message);
         map.put(MSISDN_PARAM, msisdn);
         map.put(OPX_USER_ID_PARAM, opxUserId);
@@ -76,7 +79,7 @@ class BemobiSmsServiceHandlerIntegrationTest {
                 .build();
 
         // when
-        final var response = BemobiSmsServiceHandler.get(serviceRequest);
+        final var response = RemoteServiceHandler.get(serviceRequest);
 
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);
