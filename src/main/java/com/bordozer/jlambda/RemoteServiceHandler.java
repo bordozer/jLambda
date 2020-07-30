@@ -1,5 +1,7 @@
 package com.bordozer.jlambda;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -25,7 +27,7 @@ public class RemoteServiceHandler {
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 
     @SneakyThrows
-    static String get(final String scheme, final String serverUrl, final int serverPort, final Map<String, String> httpParametersMap) {
+    static RemoteServiceResponse get(final String scheme, final String serverUrl, final int serverPort, final Map<String, String> httpParametersMap) {
 
         final List<NameValuePair> urlParameters = getParameters(httpParametersMap);
 
@@ -50,8 +52,14 @@ public class RemoteServiceHandler {
 
         try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
             try (final CloseableHttpResponse response = httpClient.execute(httpGet)) {
+                final var responseCode = response.getStatusLine().getStatusCode();
                 final HttpEntity entity = response.getEntity();
-                return EntityUtils.toString(entity);
+                final var responseBody = EntityUtils.toString(entity);
+
+                return RemoteServiceResponse.builder()
+                        .responseCode(responseCode)
+                        .responseBody(responseBody)
+                        .build();
             }
         }
     }

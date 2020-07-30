@@ -33,7 +33,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
         final JSONObject responseObject = new JSONObject();
-        responseObject.put(LAMBDA_BODY_TAG, response);
+        responseObject.put(LAMBDA_BODY_TAG, response.getResponseBody());
         logger.log(String.format("Lambda response: %s", responseObject.toJSONString()));
 
         return responseObject;

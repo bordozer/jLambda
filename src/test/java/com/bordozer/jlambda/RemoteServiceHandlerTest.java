@@ -17,6 +17,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RemoteServiceHandlerTest {
 
@@ -61,6 +62,7 @@ class RemoteServiceHandlerTest {
         final var response = RemoteServiceHandler.get(SCHEME, SERVER_URL, SERVER_PORT, map);
 
         // then
-        JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response, false);
+        assertThat(response.getResponseCode()).isEqualTo(200);
+        JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response.getResponseBody(), false);
     }
 }

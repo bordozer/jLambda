@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RemoteServiceHandlerIntegrationTest {
 
@@ -22,13 +23,19 @@ class RemoteServiceHandlerIntegrationTest {
     void shouldGetLambdaResponse() {
         // given
         final Map<String, String> map = new HashMap<>();
-        map.put("key1", "value1");
-        map.put("key2", "value2");
+        map.put("AccountID", "202080231122");
+        map.put("CurrentTime", "");
+        map.put("Message", "");
+        map.put("Msisdn", "");
+        map.put("OPXUserID", "unspecified");
+        map.put("SiteID", "402080231693");
+        map.put("AuthString", "");
 
         // when
         final var response = RemoteServiceHandler.get(SCHEME, SERVER_URL, SERVER_PORT, map);
 
         // then
-        JSONAssert.assertEquals(REMOTE_SERVICE_EXPECTED_RESPONSE, response, false);
+        assertThat(response.getResponseCode()).isEqualTo(200);
+        JSONAssert.assertEquals(REMOTE_SERVICE_EXPECTED_RESPONSE, response.getResponseBody(), false);
     }
 }

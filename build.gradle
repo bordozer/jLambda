@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'net.ltgt.apt' version "0.21"
     id "io.freefair.lombok" version "5.1.0"
 }
 
