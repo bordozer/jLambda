@@ -42,7 +42,7 @@ class RemoteServiceHandlerTest {
 
     @Test
     @SneakyThrows
-    void shouldGetLambdaResponse() {
+    void shouldGetRemoteServiceResponse() {
         // given
         final Map<String, String> map = new HashMap<>();
         map.put("param1", "value1");
