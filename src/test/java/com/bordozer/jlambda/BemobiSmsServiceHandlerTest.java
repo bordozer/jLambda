@@ -18,7 +18,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RemoteServiceHandlerTest {
+class BemobiSmsServiceHandlerTest {
 
     private static final String SERVER_SCHEME = "http";
     private static final String SERVER_HOST = "localhost";
@@ -67,7 +67,7 @@ class RemoteServiceHandlerTest {
                 .build();
 
         // when
-        final var response = RemoteServiceHandler.get(serviceRequest);
+        final var response = BemobiSmsServiceHandler.get(serviceRequest);
 
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);

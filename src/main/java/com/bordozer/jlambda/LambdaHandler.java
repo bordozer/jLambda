@@ -35,7 +35,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
                 .build();
         logger.log(String.format("Remote service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
 
-        final var response = RemoteServiceHandler.get(serviceRequest);
+        final var response = BemobiSmsServiceHandler.get(serviceRequest);
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
         final JSONObject responseObject = new JSONObject();
