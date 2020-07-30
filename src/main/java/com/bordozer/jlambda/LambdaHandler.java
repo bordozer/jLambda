@@ -18,6 +18,8 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         final var serverUrl = System.getenv("SERVER_URL");
         final var serverPort = Integer.parseInt(System.getenv("SERVER_PORT"));
+        logger.log(String.format("Remote API: \"%s:%s\"", serverUrl, serverPort));
+
         final var response = RemoteServiceHandler.get(serverUrl, serverPort);
         logger.log(String.format("Response: %s", LoggableJson.of(response).toString()));
 

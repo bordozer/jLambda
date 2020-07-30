@@ -46,7 +46,7 @@ class RemoteServiceHandlerTest {
         map.put("key1", "value1");
         map.put("key2", "value2");
 
-        wm.stubFor(get(urlPathEqualTo(String.format("/%s", PATH)))
+        wm.stubFor(get(urlPathEqualTo(PATH))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")

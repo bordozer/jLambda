@@ -10,13 +10,13 @@ import java.time.Duration;
 
 public class RemoteServiceHandler {
 
-    public static final String PATH = "api/health-check";
+    public static final String PATH = "/api/health-check";
 
     @SneakyThrows
     static String get(final String serverUrl, final int serverPort) {
 
         final var request = HttpRequest.newBuilder()
-                .uri(URI.create(String.format("%s:%s/%s", serverUrl, serverPort, PATH)))
+                .uri(URI.create(String.format("%s:%s%s", serverUrl, serverPort, PATH)))
                 .timeout(Duration.ofSeconds(10))
                 .header("Content-Type", "application/json")
                 .GET()
