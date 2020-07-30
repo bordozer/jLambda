@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class RemoteServiceResponse {
     @NonNull
-    private final int responseCode;
+    private final Integer responseCode;
     @NonNull
     private final String responseBody;
 }

@@ -6,16 +6,16 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
-
-import static com.bordozer.jlambda.RemoteServiceHandler.PATH;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
-    private static final String SCHEME = "https";
-    private static final String SERVER_URL = "visual-guitar.org";
-    private static final int SERVER_PORT = 443;
+    public static final String SERVER_SCHEME = "http";
+    public static final String SERVER_HOST = "bpx.bemobi.com";
+    public static final int SERVER_PORT = 80;
+    public static final String SERVER_PATH = "/opx/1.0/OPXSendSms";
+
     private static final String LAMBDA_BODY_TAG = "body";
 
     @Override
@@ -23,13 +23,19 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         final LambdaLogger logger = context.getLogger();
 
         logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
-        final var httpParametersMap = new HashMap<String, String>();
 
-        final var serverUrl = SERVER_URL; //System.getenv("SERVER_URL");
-        final var serverPort = SERVER_PORT; //Integer.parseInt(System.getenv("SERVER_PORT"));
-        logger.log(String.format("Remote service API: \"%s://%s:%s%s\"", SCHEME, serverUrl, serverPort, PATH));
+        final var httpParametersMap = Collections.<String, String>emptyMap(); // TODO: set real parameters
 
-        final var response = RemoteServiceHandler.get(SCHEME, serverUrl, serverPort, httpParametersMap);
+        final var serviceRequest = RemoteServiceRequest.builder()
+                .schema(SERVER_SCHEME)
+                .host(SERVER_HOST)
+                .port(SERVER_PORT)
+                .path(SERVER_PATH)
+                .parameters(httpParametersMap)
+                .build();
+        logger.log(String.format("Remote service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
+
+        final var response = RemoteServiceHandler.get(serviceRequest);
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
         final JSONObject responseObject = new JSONObject();

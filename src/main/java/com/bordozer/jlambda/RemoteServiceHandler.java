@@ -1,7 +1,5 @@
 package com.bordozer.jlambda;
 
-import lombok.Builder;
-import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -23,19 +21,17 @@ import java.util.stream.Collectors;
 
 public class RemoteServiceHandler {
 
-    public static final String PATH = "/api/health-check";
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 
     @SneakyThrows
-    static RemoteServiceResponse get(final String scheme, final String serverUrl, final int serverPort, final Map<String, String> httpParametersMap) {
-
-        final List<NameValuePair> urlParameters = getParameters(httpParametersMap);
+    static RemoteServiceResponse get(final RemoteServiceRequest serviceRequest) {
+        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
 
         final URIBuilder builder = new URIBuilder();
-        builder.setScheme(scheme)
-                .setHost(serverUrl)
-                .setPort(serverPort)
-                .setPath(PATH)
+        builder.setScheme(serviceRequest.getSchema())
+                .setHost(serviceRequest.getHost())
+                .setPort(serviceRequest.getPort())
+                .setPath(serviceRequest.getPath())
                 .setParameters(urlParameters);
         final URI uri = builder.build();
 
