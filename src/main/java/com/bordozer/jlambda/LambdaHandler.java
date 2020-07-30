@@ -4,12 +4,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
-import com.google.common.io.Resources;
-import lombok.SneakyThrows;
 import org.json.simple.JSONObject;
 
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
@@ -20,18 +16,15 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         logger.log(String.format("Input: %s", LoggableJson.of(input).toString()));
 
-        final JSONObject responseObject = new JSONObject();
-        final String body = readResource();
-        responseObject.put("body", body);
+        final var serverUrl = System.getenv("SERVER_URL");
+        final var serverPort = Integer.parseInt(System.getenv("SERVER_PORT"));
+        final var response = RemoteServiceHandler.get(serverUrl, serverPort);
+        logger.log(String.format("Response: %s", LoggableJson.of(response).toString()));
 
-        logger.log(String.format("Response: %s", LoggableJson.of(body).toString()));
+        final JSONObject responseObject = new JSONObject();
+        responseObject.put("response", response);
 
         return responseObject;
     }
 
-    @SneakyThrows
-    private String readResource() {
-        final URL url = Resources.getResource("fake-response.json");
-        return Resources.toString(url, StandardCharsets.UTF_8);
-    }
 }
