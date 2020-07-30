@@ -17,7 +17,7 @@ public class RemoteServiceHandler {
 
         final var request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format("%s:%s%s", serverUrl, serverPort, PATH)))
-                .timeout(Duration.ofSeconds(10))
+                .timeout(Duration.ofSeconds(20))
                 .header("Content-Type", "application/json")
                 .GET()
                 .build();

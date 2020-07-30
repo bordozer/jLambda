@@ -8,7 +8,12 @@ import org.json.simple.JSONObject;
 
 import java.util.Map;
 
+import static com.bordozer.jlambda.RemoteServiceHandler.PATH;
+
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
+
+    public static final String SERVER_URL = "https://visual-guitar.org";
+    public static final int SERVER_PORT = 443;
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
@@ -16,9 +21,9 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
 
-        final var serverUrl = System.getenv("SERVER_URL");
-        final var serverPort = Integer.parseInt(System.getenv("SERVER_PORT"));
-        logger.log(String.format("Remote service API: \"%s:%s\"", serverUrl, serverPort));
+        final var serverUrl = SERVER_URL; //System.getenv("SERVER_URL");
+        final var serverPort = SERVER_PORT; //Integer.parseInt(System.getenv("SERVER_PORT"));
+        logger.log(String.format("Remote service API: \"%s:%s%s\"", serverUrl, serverPort, PATH));
 
         final var response = RemoteServiceHandler.get(serverUrl, serverPort);
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));

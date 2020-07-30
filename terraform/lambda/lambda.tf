@@ -19,7 +19,8 @@ resource "aws_lambda_function" "lambda_function" {
 
   /*environment {
     variables = {
-      foo = "bar"
+      SERVER_URL = "https://visual-guitar.org"
+      SERVER_PORT = "443"
     }
   }*/
 
