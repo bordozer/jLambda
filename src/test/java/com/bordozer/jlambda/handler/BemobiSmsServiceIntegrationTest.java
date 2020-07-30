@@ -1,5 +1,6 @@
 package com.bordozer.jlambda.handler;
 
+import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import com.bordozer.jlambda.utils.CommonUtils;
@@ -32,23 +33,11 @@ class BemobiSmsServiceIntegrationTest {
     public static final String OPX_USER_ID_ENV = "OPX_USER_ID";
     public static final String SITE_ID_ENV = "SITE_ID";
 
-    private static final String ACCOUNT_ID_PARAM = "AccountID";
-    private static final String MSISDN_PARAM = "Msisdn";
-    private static final String OPX_USER_ID_PARAM = "OPXUserID";
-    private static final String SITE_ID_PARAM = "SiteID";
-    private static final String MESSAGE_PARAM = "Message";
-    private static final String CURRENT_TIME_PARAM = "CurrentTime";
-    private static final String AUTH_STRING_PARAM = "AuthString";
-
     private static final String BEMOBI_EXPECTED_RESPONSE = readSystemResource("bemobi-successful-expected-response.json");
 
     @Test
     @SneakyThrows
     void shouldGetSuccessfulBemobiServiceResponse() {
-        // unclear
-        // TODO: Note: This will not work for unsubscribed users
-        // TODO: Note: The hex-encoded key should be converted to 20 binary bytes before the HMAC-SHA1 computation.
-
         // given
         final var apiKey = System.getenv(API_KEY_ENV);
         final var accountId = System.getenv(ACCOUNT_ID_ENV);
@@ -57,29 +46,31 @@ class BemobiSmsServiceIntegrationTest {
         final var siteId = System.getenv(SITE_ID_ENV);
         final var message = "download bsafe"; // The message string should not be URL encoded
 
-        final Map<String, String> map = new HashMap<>();
-        map.put(ACCOUNT_ID_PARAM, accountId);
-        map.put(CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
-        map.put(MESSAGE_PARAM, message);
-        map.put(MSISDN_PARAM, msisdn);
-        map.put(OPX_USER_ID_PARAM, opxUserId);
-        map.put(SITE_ID_PARAM, siteId);
+        final Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put(BemobiRequestUtils.API_KEY_PARAM, apiKey);
+        requestParameters.put(BemobiRequestUtils.ACCOUNT_ID_PARAM, accountId);
+        requestParameters.put(BemobiRequestUtils.CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
+        requestParameters.put(BemobiRequestUtils.MESSAGE_PARAM, message);
+        requestParameters.put(BemobiRequestUtils.MSISDN_PARAM, msisdn);
+        requestParameters.put(BemobiRequestUtils.OPX_USER_ID_PARAM, opxUserId);
+        requestParameters.put(BemobiRequestUtils.SITE_ID_PARAM, siteId);
+        log.info("Request parameters: \"{}\"", LoggableJson.of(requestParameters).toString());
 
-        final String authString = BemobiRequestUtils.calculateAuthString(apiKey, map);
-        log.info("Auth string: \"{}\"", authString);
-
-        map.put(AUTH_STRING_PARAM, authString);
+        final var bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(requestParameters);
+        log.info("Bemobi parameters: \"{}\"", LoggableJson.of(bemobiParameters).toString());
 
         final var serviceRequest = RemoteServiceRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .parameters(map)
+                .parameters(bemobiParameters)
                 .build();
+        log.info("Bemobi request: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // when
         final var response = RemoteServiceHandler.get(serviceRequest);
+        log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);

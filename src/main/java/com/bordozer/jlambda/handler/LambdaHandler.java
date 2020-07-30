@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import org.json.simple.JSONObject;
 
@@ -24,15 +25,15 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
 
-        final Map<String, String> parameters = (Map<String, String>) input.get("queryStringParameters");
-        logger.log(String.format("Parameters: \"%s\"", LoggableJson.of(parameters).toString()));
+        final Map<String, String> bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(getRequestParameters(input));
+        logger.log(String.format("Bemobi parameters: \"%s\"", LoggableJson.of(bemobiParameters).toString()));
 
         final var serviceRequest = RemoteServiceRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .parameters(parameters)
+                .parameters(bemobiParameters)
                 .build();
         logger.log(String.format("Remote service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
 
@@ -44,5 +45,12 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         logger.log(String.format("Lambda response: %s", responseObject.toJSONString()));
 
         return responseObject;
+    }
+
+    private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
+        if (input.get("queryStringParameters") == null) {
+            throw new IllegalArgumentException("Lambda's parameters should not be null");
+        }
+        return (Map<String, String>) input.get("queryStringParameters");
     }
 }
