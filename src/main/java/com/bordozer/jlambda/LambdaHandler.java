@@ -12,8 +12,9 @@ import static com.bordozer.jlambda.RemoteServiceHandler.PATH;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
-    public static final String SERVER_URL = "https://visual-guitar.org";
-    public static final int SERVER_PORT = 443;
+    private static final String SERVER_URL = "https://visual-guitar.org";
+    private static final int SERVER_PORT = 443;
+    private static final String LAMBDA_BODY_TAG = "body";
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
@@ -29,7 +30,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
         final JSONObject responseObject = new JSONObject();
-        responseObject.put("body", response);
+        responseObject.put(LAMBDA_BODY_TAG, response);
         logger.log(String.format("Lambda response: %s", responseObject.toJSONString()));
 
         return responseObject;
