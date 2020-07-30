@@ -23,7 +23,7 @@ variable "lambda_payload_filename" {
 }
 
 variable "lambda_function_handler" {
-  default = "com.bordozer.jlambda.LambdaHandler"
+  default = "com.bordozer.jlambda.handler.LambdaHandler"
 }
 
 variable "lambda_runtime" {

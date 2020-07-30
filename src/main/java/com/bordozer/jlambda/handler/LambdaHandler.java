@@ -5,11 +5,8 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
-import com.bordozer.jlambda.utils.CommonUtils;
 import org.json.simple.JSONObject;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
