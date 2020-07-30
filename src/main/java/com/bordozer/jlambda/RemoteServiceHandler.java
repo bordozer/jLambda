@@ -22,16 +22,15 @@ import java.util.stream.Collectors;
 public class RemoteServiceHandler {
 
     public static final String PATH = "/api/health-check";
-    private static final String SCHEME = "http";
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 
     @SneakyThrows
-    static String get(final String serverUrl, final int serverPort, final Map<String, String> httpParametersMap) {
+    static String get(final String scheme, final String serverUrl, final int serverPort, final Map<String, String> httpParametersMap) {
 
         final List<NameValuePair> urlParameters = getParameters(httpParametersMap);
 
         final URIBuilder builder = new URIBuilder();
-        builder.setScheme(SCHEME)
+        builder.setScheme(scheme)
                 .setHost(serverUrl)
                 .setPort(serverPort)
                 .setPath(PATH)

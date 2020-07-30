@@ -11,6 +11,7 @@ import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 
 class RemoteServiceHandlerIntegrationTest {
 
+    private static final String SCHEME = "http";
     private static final String SERVER_URL = "http://bpx.bemobi.com/opx/1.0/OPXSendSms";
     private static final int SERVER_PORT = 80;
 
@@ -25,7 +26,7 @@ class RemoteServiceHandlerIntegrationTest {
         map.put("key2", "value2");
 
         // when
-        final var response = RemoteServiceHandler.get(SERVER_URL, SERVER_PORT, map);
+        final var response = RemoteServiceHandler.get(SCHEME, SERVER_URL, SERVER_PORT, map);
 
         // then
         JSONAssert.assertEquals(REMOTE_SERVICE_EXPECTED_RESPONSE, response, false);

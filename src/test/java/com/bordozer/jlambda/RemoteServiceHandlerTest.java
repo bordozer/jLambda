@@ -20,6 +20,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 
 class RemoteServiceHandlerTest {
 
+    private static final String SCHEME = "http";
     private static final String SERVER_URL = "localhost";
     private static final int SERVER_PORT = 7001;
 
@@ -57,7 +58,7 @@ class RemoteServiceHandlerTest {
         );
 
         // when
-        final var response = RemoteServiceHandler.get(SERVER_URL, SERVER_PORT, map);
+        final var response = RemoteServiceHandler.get(SCHEME, SERVER_URL, SERVER_PORT, map);
 
         // then
         JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response, false);
