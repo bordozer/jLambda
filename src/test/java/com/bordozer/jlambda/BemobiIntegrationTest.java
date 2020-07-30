@@ -21,12 +21,12 @@ import static com.bordozer.jlambda.LambdaHandler.SERVER_SCHEME;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-@EnabledIfEnvironmentVariable(named = RemoteServiceHandlerIntegrationTest.API_KEY_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = RemoteServiceHandlerIntegrationTest.ACCOUNT_ID_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = RemoteServiceHandlerIntegrationTest.MSISDN_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = RemoteServiceHandlerIntegrationTest.OPX_USER_ID_ENV, matches = ".*")
-@EnabledIfEnvironmentVariable(named = RemoteServiceHandlerIntegrationTest.SITE_ID_ENV, matches = ".*")
-class RemoteServiceHandlerIntegrationTest {
+@EnabledIfEnvironmentVariable(named = BemobiIntegrationTest.API_KEY_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiIntegrationTest.ACCOUNT_ID_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiIntegrationTest.MSISDN_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiIntegrationTest.OPX_USER_ID_ENV, matches = ".*")
+@EnabledIfEnvironmentVariable(named = BemobiIntegrationTest.SITE_ID_ENV, matches = ".*")
+class BemobiIntegrationTest {
 
     public static final String API_KEY_ENV = "API_KEY";
     public static final String ACCOUNT_ID_ENV = "ACCOUNT_ID";
