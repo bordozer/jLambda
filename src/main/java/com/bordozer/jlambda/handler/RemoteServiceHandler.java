@@ -1,7 +1,9 @@
 package com.bordozer.jlambda.handler;
 
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import com.bordozer.jlambda.model.RemoteServiceResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -21,12 +23,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class RemoteServiceHandler {
 
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 
+    private final LambdaLogger logger;
+
     @SneakyThrows
-    static RemoteServiceResponse get(final RemoteServiceRequest serviceRequest) {
+    RemoteServiceResponse get(final RemoteServiceRequest serviceRequest) {
         final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
 
         final URIBuilder builder = new URIBuilder();
@@ -36,6 +41,7 @@ public class RemoteServiceHandler {
                 .setPath(serviceRequest.getPath())
                 .setParameters(urlParameters);
         final URI uri = builder.build();
+        logger.log(String.format("Request string: \"%s\"", uri.toString()));
 
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(CONNECTION_TIMEOUT_MS)

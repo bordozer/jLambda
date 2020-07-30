@@ -3,7 +3,7 @@ package com.bordozer.jlambda.handler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
-import com.bordozer.jlambda.utils.CommonUtils;
+import com.bordozer.jlambda.utils.TestLambdaLogger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,7 @@ import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_HOST;
 import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PATH;
 import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PORT;
 import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_SCHEME;
+import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -74,7 +75,7 @@ class BemobiSmsServiceIntegrationTest {
         log.info("Bemobi request: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // when
-        final var response = RemoteServiceHandler.get(serviceRequest);
+        final var response = new RemoteServiceHandler(LAMBDA_LOGGER).get(serviceRequest);
         log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // then

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
+import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -69,7 +70,7 @@ class RemoteServiceHandlerTest {
                 .build();
 
         // when
-        final var response = RemoteServiceHandler.get(serviceRequest);
+        final var response = new RemoteServiceHandler(LAMBDA_LOGGER).get(serviceRequest);
 
         // then
         assertThat(response.getResponseCode()).isEqualTo(200);
