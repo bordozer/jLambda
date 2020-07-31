@@ -1,6 +1,6 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.BemobiRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -60,7 +60,7 @@ class BemobiClientTest {
         map.put("param1", "value1");
         map.put("param2", "value2");
 
-        final var serviceRequest = RemoteServiceRequest.builder()
+        final var serviceRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)

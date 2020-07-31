@@ -1,8 +1,8 @@
 package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
-import com.bordozer.jlambda.model.RemoteServiceRequest;
-import com.bordozer.jlambda.model.BemobiServiceResponse;
+import com.bordozer.jlambda.model.BemobiRequest;
+import com.bordozer.jlambda.model.BemobiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
@@ -31,7 +31,7 @@ public class BemobiClient {
     private final LambdaLogger logger;
 
     @SneakyThrows
-    BemobiServiceResponse get(final RemoteServiceRequest serviceRequest) {
+    public BemobiResponse get(final BemobiRequest serviceRequest) {
         final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
 
         final URIBuilder builder = new URIBuilder();
@@ -60,7 +60,7 @@ public class BemobiClient {
                 final HttpEntity entity = response.getEntity();
                 final var responseBody = EntityUtils.toString(entity);
 
-                return BemobiServiceResponse.builder()
+                return BemobiResponse.builder()
                         .responseCode(responseCode)
                         .responseBody(responseBody)
                         .build();

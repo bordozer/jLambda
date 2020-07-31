@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class BemobiServiceResponse {
+public class BemobiResponse {
     @NonNull
     private final Integer responseCode;
     @NonNull

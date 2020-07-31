@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.LambdaResponse;
-import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.BemobiRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
@@ -49,7 +49,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         final Map<String, String> bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(requestParameters);
 
-        final var serviceRequest = RemoteServiceRequest.builder()
+        final var serviceRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)

@@ -3,7 +3,7 @@ package com.bordozer.jlambda.handler;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.model.LambdaResponse;
-import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.BemobiRequest;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -13,7 +13,7 @@ public class BemobiHandler {
     public static final String HEALTH_CHECK = "health-check";
 
     @NonNull
-    private final RemoteServiceRequest serviceRequest;
+    private final BemobiRequest serviceRequest;
     @NonNull
     private final LambdaLogger logger;
 

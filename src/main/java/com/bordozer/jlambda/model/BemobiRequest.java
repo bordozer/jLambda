@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Getter
 @Builder
-public class RemoteServiceRequest {
+public class BemobiRequest {
     @NonNull
     private final String schema;
     @NonNull
@@ -21,8 +21,4 @@ public class RemoteServiceRequest {
     @NonNull
     @Builder.Default
     private final Map<String, String> parameters = Collections.emptyMap();
-
-    public String getRemoteServiceUrl() {
-        return String.format("%s://%s:%s%s", schema, host, port, path);
-    }
 }

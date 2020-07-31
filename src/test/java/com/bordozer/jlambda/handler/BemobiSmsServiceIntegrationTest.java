@@ -2,7 +2,7 @@ package com.bordozer.jlambda.handler;
 
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
-import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.BemobiRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ class BemobiSmsServiceIntegrationTest {
         final var bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(requestParameters);
         log.info("Bemobi parameters: \"{}\"", LoggableJson.of(bemobiParameters).toString());
 
-        final var serviceRequest = RemoteServiceRequest.builder()
+        final var serviceRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)

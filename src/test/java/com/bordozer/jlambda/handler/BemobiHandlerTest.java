@@ -1,6 +1,6 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.utils.TestLambdaLogger;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -61,7 +61,7 @@ class BemobiHandlerTest {
         final var bemobiParameters = new HashMap<String, String>();
         bemobiParameters.put(API_KEY_PARAM, FAKE_API_KEY_HEX);
 
-        final var serviceRequest = RemoteServiceRequest.builder()
+        final var serviceRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
