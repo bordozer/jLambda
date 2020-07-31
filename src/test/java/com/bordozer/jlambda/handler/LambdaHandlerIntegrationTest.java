@@ -1,6 +1,5 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.model.RemoteServiceRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -12,22 +11,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
-import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
+import static com.bordozer.jlambda.utils.TestUtils.getContext;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static org.assertj.core.api.Assertions.assertThat;
 
-class RemoteServiceHandlerTest {
+public class LambdaHandlerIntegrationTest {
 
-    private static final String SERVER_SCHEME = "http";
-    private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 7001;
     private static final String SERVER_PATH = "/api/health-check";
 
     private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-mock-service-response.json");
+    private static final String LAMBDA_EXPECTED_RESPONSE = String.format(
+            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"OK\"}"
+    );
 
     private WireMockServer wm;
 
@@ -56,23 +55,14 @@ class RemoteServiceHandlerTest {
                 )
         );
 
-        final Map<String, String> map = new HashMap<>();
+        final Map<String, Object> map = new HashMap<>();
         map.put("param1", "value1");
         map.put("param2", "value2");
 
-        final var serviceRequest = RemoteServiceRequest.builder()
-                .schema(SERVER_SCHEME)
-                .host(SERVER_HOST)
-                .port(SERVER_PORT)
-                .path(SERVER_PATH)
-                .parameters(map)
-                .build();
-
         // when
-        final var response = new RemoteServiceHandler(LAMBDA_LOGGER).get(serviceRequest);
+        final var response = new LambdaHandler().handleRequest(map, getContext());
 
         // then
-        assertThat(response.getResponseCode()).isEqualTo(200);
-        JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response.getResponseBody(), false);
+        JSONAssert.assertEquals(LAMBDA_EXPECTED_RESPONSE, response.toJSONString(), false);
     }
 }

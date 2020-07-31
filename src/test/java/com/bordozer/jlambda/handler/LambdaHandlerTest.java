@@ -1,6 +1,6 @@
 package com.bordozer.jlambda.handler;
 
-import com.amazonaws.services.lambda.runtime.Context;
+import com.bordozer.jlambda.utils.TestUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -10,10 +10,8 @@ import java.util.Collections;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.handler.LambdaHandler.HEALTH_CHECK;
-import static com.bordozer.jlambda.utils.RequestUtils.singleParameterMap;
-import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static com.bordozer.jlambda.utils.TestUtils.getContext;
+import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 
 @Slf4j
 class LambdaHandlerTest {
@@ -65,11 +63,5 @@ class LambdaHandlerTest {
 
         // then
         JSONAssert.assertEquals(MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE, response.toJSONString(), false);
-    }
-
-    private Context getContext() {
-        final var mock = mock(Context.class);
-        when(mock.getLogger()).thenReturn(LAMBDA_LOGGER);
-        return mock;
     }
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class RemoteServiceHandler {
+public class BemobiClient {
 
     private static final int CONNECTION_TIMEOUT_MS = 20000;
 
@@ -41,7 +41,7 @@ public class RemoteServiceHandler {
                 .setPath(serviceRequest.getPath())
                 .setParameters(urlParameters);
         final URI uri = builder.build();
-        logger.log(String.format("Request string: \"%s\"", uri.toString()));
+        logger.log(String.format("Bemobi request string: \"%s\"", uri.toString()));
 
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(CONNECTION_TIMEOUT_MS)

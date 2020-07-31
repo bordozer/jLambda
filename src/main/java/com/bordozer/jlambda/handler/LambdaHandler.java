@@ -6,7 +6,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.LambdaResponse;
-import com.bordozer.jlambda.model.LambdaResponsePayload;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
@@ -65,7 +64,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
                 .build();
         logger.log(String.format("Bemobi service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
 
-        final var response = new RemoteServiceHandler(logger).get(serviceRequest);
+        final var response = new BemobiClient(logger).get(serviceRequest);
         logger.log(String.format("Bemobi service response: %s", LoggableJson.of(response).toString()));
 
         final var responseObject = new LambdaResponse(response.getResponseCode(), response.getResponseBody());

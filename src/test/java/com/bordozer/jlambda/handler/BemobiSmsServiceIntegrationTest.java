@@ -74,7 +74,7 @@ class BemobiSmsServiceIntegrationTest {
         log.info("Bemobi request: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // when
-        final var response = new RemoteServiceHandler(LAMBDA_LOGGER).get(serviceRequest);
+        final var response = new BemobiClient(LAMBDA_LOGGER).get(serviceRequest);
         log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // then
