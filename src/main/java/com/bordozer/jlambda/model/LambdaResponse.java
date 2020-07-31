@@ -1,5 +1,6 @@
 package com.bordozer.jlambda.model;
 
+import com.bordozer.commons.utils.LoggableJson;
 import org.json.simple.JSONObject;
 
 public class LambdaResponse extends JSONObject {
@@ -10,7 +11,7 @@ public class LambdaResponse extends JSONObject {
 
         this.put("statusCode", responseCode);
         this.put("headers", headers);
-        this.put("body", responseBody);
         this.put("isBase64Encoded", false);
+        this.put("body", LoggableJson.of(LambdaResponsePayload.of(responseBody)).toString());
     }
 }

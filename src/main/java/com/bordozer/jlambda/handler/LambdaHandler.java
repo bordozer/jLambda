@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.LambdaResponse;
+import com.bordozer.jlambda.model.LambdaResponsePayload;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
