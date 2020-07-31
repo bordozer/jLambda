@@ -59,6 +59,7 @@ public class BemobiClient {
             try (final CloseableHttpResponse response = httpClient.execute(httpGet)) {
                 final HttpEntity entity = response.getEntity();
                 final var responseBody = EntityUtils.toString(entity);
+                // TODO: deserialize ignoring case
                 return new Gson().fromJson(responseBody, BemobiResponse.class);
             }
         }

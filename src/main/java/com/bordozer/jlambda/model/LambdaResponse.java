@@ -2,9 +2,11 @@ package com.bordozer.jlambda.model;
 
 import org.json.simple.JSONObject;
 
-public class LambdaResponse extends JSONObject {
+import java.io.Serializable;
 
-    public LambdaResponse(final int responseCode, final Object response) {
+public class LambdaResponse<T extends Serializable> extends JSONObject {
+
+    public LambdaResponse(final int responseCode, final T response) {
         final var payload = new JSONObject();
         payload.put("payload", response);
 

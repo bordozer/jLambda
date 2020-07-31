@@ -5,8 +5,8 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
-import com.bordozer.jlambda.model.LambdaResponse;
 import com.bordozer.jlambda.model.BemobiRequest;
+import com.bordozer.jlambda.model.LambdaResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
@@ -33,18 +33,24 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var requestParameters = getRequestParameters(input);
         if (requestParameters == null) {
-            return new LambdaResponse(422, "Lambda's parameters should not be null");
+            final var response = new LambdaResponse<>(422, "Lambda's parameters should not be null");
+            logLambdaResponse(logger, response);
+            return response;
         }
         logger.log(String.format("Request parameters: \"%s\"", LoggableJson.of(requestParameters).toString()));
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            return new LambdaResponse(200, "Health check is OK");
+            final var response = new LambdaResponse<>(200, "Health check is OK");
+            logLambdaResponse(logger, response);
+            return response;
         }
 
         @Nullable final var apiKey = requestParameters.get(API_KEY_PARAM);
         if (StringUtils.isBlank(apiKey)) {
-            return new LambdaResponse(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
+            final var response = new LambdaResponse<>(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
+            logLambdaResponse(logger, response);
+            return response;
         }
 
         final Map<String, String> bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(requestParameters);
@@ -67,11 +73,14 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         return response;
     }
 
-    @Nullable
     private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
         if (input.get(QUERY_STRING_PARAMETERS) == null) {
             return null;
         }
         return (Map<String, String>) input.get("queryStringParameters");
+    }
+
+    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse<String> response) {
+        logger.log(String.format("Lambda response: %s", response.toJSONString()));
     }
 }
