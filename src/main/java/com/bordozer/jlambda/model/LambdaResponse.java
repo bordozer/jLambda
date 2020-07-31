@@ -1,14 +1,13 @@
 package com.bordozer.jlambda.model;
 
+import com.bordozer.commons.utils.LoggableJson;
 import org.json.simple.JSONObject;
 
-import java.io.Serializable;
+public class LambdaResponse extends JSONObject {
 
-public class LambdaResponse<T extends Serializable> extends JSONObject {
-
-    public LambdaResponse(final int responseCode, final T response) {
+    public LambdaResponse(final int responseCode, final Object response) {
         final var payload = new JSONObject();
-        payload.put("payload", response);
+        payload.put("payload", LoggableJson.of(response).toString());
 
         final var headers = new JSONObject();
         headers.put("Content-Type", "application/json");

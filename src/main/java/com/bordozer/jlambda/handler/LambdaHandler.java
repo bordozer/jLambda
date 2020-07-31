@@ -33,7 +33,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var requestParameters = getRequestParameters(input);
         if (requestParameters == null) {
-            final var response = new LambdaResponse<>(422, "Lambda's parameters should not be null");
+            final var response = new LambdaResponse(422, "Lambda's parameters should not be null");
             logLambdaResponse(logger, response);
             return response;
         }
@@ -41,14 +41,14 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            final var response = new LambdaResponse<>(200, "Health check is OK");
+            final var response = new LambdaResponse(200, "Health check is OK");
             logLambdaResponse(logger, response);
             return response;
         }
 
         @Nullable final var apiKey = requestParameters.get(API_KEY_PARAM);
         if (StringUtils.isBlank(apiKey)) {
-            final var response = new LambdaResponse<>(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
+            final var response = new LambdaResponse(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
             logLambdaResponse(logger, response);
             return response;
         }
@@ -73,6 +73,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         return response;
     }
 
+    @Nullable
     private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
         if (input.get(QUERY_STRING_PARAMETERS) == null) {
             return null;
@@ -80,7 +81,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         return (Map<String, String>) input.get("queryStringParameters");
     }
 
-    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse<String> response) {
+    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse response) {
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
     }
 }

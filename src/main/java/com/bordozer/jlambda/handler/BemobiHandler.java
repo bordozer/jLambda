@@ -18,10 +18,10 @@ public class BemobiHandler {
     @NonNull
     private final LambdaLogger logger;
 
-    public LambdaResponse<BemobiResponse> handle() {
+    public LambdaResponse handle() {
         final var response = new BemobiClient(logger).get(serviceRequest);
         logger.log(String.format("Bemobi service response: %s", LoggableJson.of(response).toString()));
 
-        return new LambdaResponse<>(200, response);
+        return new LambdaResponse(200, response);
     }
 }
