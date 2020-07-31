@@ -3,6 +3,7 @@ package com.bordozer.jlambda.handler;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.model.BemobiResponse;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
@@ -56,14 +57,9 @@ public class BemobiClient {
 
         try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
             try (final CloseableHttpResponse response = httpClient.execute(httpGet)) {
-                final var responseCode = response.getStatusLine().getStatusCode();
                 final HttpEntity entity = response.getEntity();
                 final var responseBody = EntityUtils.toString(entity);
-
-                return BemobiResponse.builder()
-                        .responseCode(responseCode)
-                        .responseBody(responseBody)
-                        .build();
+                return new Gson().fromJson(responseBody, BemobiResponse.class);
             }
         }
     }

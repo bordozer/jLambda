@@ -78,7 +78,7 @@ class BemobiSmsServiceIntegrationTest {
         log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(serviceRequest).toString());
 
         // then
-        assertThat(response.getResponseCode()).isEqualTo(200);
-        JSONAssert.assertEquals(BEMOBI_EXPECTED_RESPONSE, response.getResponseBody(), false);
+        assertThat(response.getStatusCode()).isEqualTo(0);
+        JSONAssert.assertEquals(BEMOBI_EXPECTED_RESPONSE, response.getReason(), false);
     }
 }

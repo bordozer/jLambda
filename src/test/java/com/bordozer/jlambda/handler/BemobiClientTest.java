@@ -6,7 +6,6 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ class BemobiClientTest {
     private static final int SERVER_PORT = 7001;
     private static final String SERVER_PATH = "/api/health-check";
 
-    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-mock-service-response.json");
+    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("bemobi-mock-service-response.json");
 
     private WireMockServer wm;
 
@@ -72,7 +71,7 @@ class BemobiClientTest {
         final var response = new BemobiClient(LAMBDA_LOGGER).get(serviceRequest);
 
         // then
-        assertThat(response.getResponseCode()).isEqualTo(200);
-        JSONAssert.assertEquals(REMOTE_SERVICE_RESPONSE, response.getResponseBody(), false);
+        assertThat(response.getStatusCode()).isEqualTo(0);
+        assertThat(response.getReason()).isEqualTo("Message sent successfully");
     }
 }

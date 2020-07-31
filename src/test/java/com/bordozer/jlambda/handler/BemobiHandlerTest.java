@@ -26,9 +26,9 @@ class BemobiHandlerTest {
     private static final int SERVER_PORT = 7001;
     private static final String SERVER_PATH = "/api/health-check";
 
-    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-mock-service-response.json");
+    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("bemobi-mock-service-response.json");
     private static final String LAMBDA_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "{\\\"status\\\":\\\"OK\\\"}"
+            readSystemResource("lambda-response-template.json"), 200, "Message sent successfully"
     );
     private static final String FAKE_API_KEY_HEX = "1056E0F39CD97BE9AE45A";
 

@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class BemobiResponse {
     @NonNull
-    private final Integer responseCode;
+    private final Integer StatusCode;
     @NonNull
-    private final String responseBody;
+    private final String Reason;
 }
