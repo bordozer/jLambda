@@ -27,12 +27,20 @@ resource "aws_lambda_function" "lambda_function" {
   tags = local.common_tags
 }
 
-resource "aws_lambda_permission" "lambda_permission" {
+resource "aws_lambda_permission" "with_api_gateway" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda_function.function_name
   principal     = "apigateway.amazonaws.com"
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/${local.lambda_stage}/GET/${var.api_path}"
+  source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/${local.lambda_stage}/GET/${var.api_gateway_path}"
+}
+
+resource "aws_lambda_permission" "with_alb" {
+  statement_id  = "AllowExecutionFromAlb"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_function.arn
+  principal     = "elasticloadbalancing.amazonaws.com"
+  source_arn    = aws_lb_target_group.lb_tg.arn
 }
