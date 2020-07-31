@@ -8,6 +8,8 @@ import com.bordozer.jlambda.model.LambdaResponse;
 import lombok.Builder;
 import lombok.NonNull;
 
+import static com.bordozer.jlambda.converter.BemobiResponseCodeConverter.convertToLambdaResponseCode;
+
 @Builder
 public class BemobiHandler {
 
@@ -22,6 +24,6 @@ public class BemobiHandler {
         final var response = new BemobiClient(logger).get(serviceRequest);
         logger.log(String.format("Bemobi service response: %s", LoggableJson.of(response).toString()));
 
-        return new LambdaResponse(200, response);
+        return new LambdaResponse(convertToLambdaResponseCode(response.getStatusCode()), response);
     }
 }
