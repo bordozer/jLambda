@@ -9,7 +9,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import java.util.Collections;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
-import static com.bordozer.jlambda.handler.LambdaHandler.HEALTH_CHECK;
+import static com.bordozer.jlambda.handler.BemobiHandler.HEALTH_CHECK;
 import static com.bordozer.jlambda.utils.TestUtils.getContext;
 import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 

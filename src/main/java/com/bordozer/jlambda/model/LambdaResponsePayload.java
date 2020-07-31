@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class LambdaResponsePayload {
+
     private final String payload;
 
     public static LambdaResponsePayload of(final String payload) {
