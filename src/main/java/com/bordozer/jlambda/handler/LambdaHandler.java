@@ -36,6 +36,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             logLambdaResponse(logger, response);
             return response;
         }
+        logger.log(String.format("Request parameters: \"%s\"", LoggableJson.of(requestParameters).toString()));
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
@@ -61,10 +62,10 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
                 .path(SERVER_PATH)
                 .parameters(bemobiParameters)
                 .build();
-        logger.log(String.format("Remote service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
+        logger.log(String.format("Bemobi service: \"%s\"", serviceRequest.getRemoteServiceUrl()));
 
         final var response = new RemoteServiceHandler(logger).get(serviceRequest);
-        logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
+        logger.log(String.format("Bemobi service response: %s", LoggableJson.of(response).toString()));
 
         final var responseObject = new LambdaResponse(response.getResponseCode(), response.getResponseBody());
         logLambdaResponse(logger, responseObject);
