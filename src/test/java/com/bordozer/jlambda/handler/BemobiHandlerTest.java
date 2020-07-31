@@ -1,6 +1,7 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.utils.TestUtils;
+import com.bordozer.jlambda.model.RemoteServiceRequest;
+import com.bordozer.jlambda.utils.TestLambdaLogger;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -8,11 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
-import static com.bordozer.jlambda.utils.TestUtils.getContext;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -28,7 +28,7 @@ class BemobiHandlerTest {
 
     private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-mock-service-response.json");
     private static final String LAMBDA_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"OK\"}"
+            readSystemResource("lambda-response-template.json"), 422, "{\\\"status\\\":\\\"OK\\\"}"
     );
     private static final String FAKE_API_KEY_HEX = "1056E0F39CD97BE9AE45A";
 
@@ -58,10 +58,23 @@ class BemobiHandlerTest {
                 )
         );
 
-        final Map<String, Object> map = TestUtils.singleParameterMap(API_KEY_PARAM, FAKE_API_KEY_HEX);
+        final var bemobiParameters = new HashMap<String, String>();
+        bemobiParameters.put(API_KEY_PARAM, FAKE_API_KEY_HEX);
+
+        final var serviceRequest = RemoteServiceRequest.builder()
+                .schema(SERVER_SCHEME)
+                .host(SERVER_HOST)
+                .port(SERVER_PORT)
+                .path(SERVER_PATH)
+                .parameters(bemobiParameters)
+                .build();
 
         // when
-        final var response = new LambdaHandler().handleRequest(map, getContext());
+        final var handler = BemobiHandler.builder()
+                .serviceRequest(serviceRequest)
+                .logger(TestLambdaLogger.LAMBDA_LOGGER)
+                .build();
+        final var response = handler.handle();
 
         // then
         JSONAssert.assertEquals(LAMBDA_EXPECTED_RESPONSE, response.toJSONString(), false);
