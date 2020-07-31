@@ -3,7 +3,6 @@ package com.bordozer.jlambda.handler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
-import com.bordozer.jlambda.utils.TestLambdaLogger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

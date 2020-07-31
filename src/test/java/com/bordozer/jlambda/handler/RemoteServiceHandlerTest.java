@@ -1,6 +1,5 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.handler.RemoteServiceHandler;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -28,7 +27,7 @@ class RemoteServiceHandlerTest {
     private static final int SERVER_PORT = 7001;
     private static final String SERVER_PATH = "/api/health-check";
 
-    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-service-response.json");
+    private static final String REMOTE_SERVICE_RESPONSE = readSystemResource("remote-mock-service-response.json");
 
     private WireMockServer wm;
 

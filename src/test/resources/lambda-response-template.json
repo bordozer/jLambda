@@ -1,8 +1,8 @@
 {
-  "statusCode": 200,
+  "statusCode": %s,
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "Health check is OK",
+  "body": "%s",
   "isBase64Encoded": false
 }

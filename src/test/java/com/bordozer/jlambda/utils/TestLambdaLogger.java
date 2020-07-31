@@ -4,7 +4,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TestLambdaLogger implements LambdaLogger {
+public final class TestLambdaLogger implements LambdaLogger {
 
     public static final TestLambdaLogger LAMBDA_LOGGER = new TestLambdaLogger();
 

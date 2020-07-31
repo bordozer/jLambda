@@ -5,8 +5,9 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
-import com.bordozer.jlambda.model.AlbResponse;
+import com.bordozer.jlambda.model.LambdaResponse;
 import com.bordozer.jlambda.model.RemoteServiceRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
 import javax.annotation.Nullable;
@@ -22,7 +23,6 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
     public static final String HEALTH_CHECK = "health-check";
 
     public static final String QUERY_STRING_PARAMETERS = "queryStringParameters";
-    private static final String LAMBDA_BODY_TAG = "body";
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
@@ -30,11 +30,24 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
 
-        final var requestParameters = getRequestParameters(input);
+        @Nullable final var requestParameters = getRequestParameters(input);
+        if (requestParameters == null) {
+            final var response = new LambdaResponse(422, "Lambda's parameters should not be null");
+            logLambdaResponse(logger, response);
+            return response;
+        }
+
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            final var response = new AlbResponse(200, "Health check is OK");
-            logger.log(String.format("Lambda response: %s", response.toJSONString()));
+            final var response = new LambdaResponse(200, "Health check is OK");
+            logLambdaResponse(logger, response);
+            return response;
+        }
+
+        @Nullable final var apiKey = requestParameters.get(BemobiRequestUtils.API_KEY_PARAM);
+        if (StringUtils.isBlank(apiKey)) {
+            final var response = new LambdaResponse(422, String.format("ApiKey have to be provided as request parameter '%s'", BemobiRequestUtils.API_KEY_PARAM));
+            logLambdaResponse(logger, response);
             return response;
         }
 
@@ -53,15 +66,20 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         final var response = new RemoteServiceHandler(logger).get(serviceRequest);
         logger.log(String.format("Remote service response: %s", LoggableJson.of(response).toString()));
 
-        final var responseObject = new AlbResponse(response.getResponseCode(), response.getResponseBody());
-        logger.log(String.format("Lambda response: %s", responseObject.toJSONString()));
+        final var responseObject = new LambdaResponse(response.getResponseCode(), response.getResponseBody());
+        logLambdaResponse(logger, responseObject);
         return responseObject;
     }
 
+    @Nullable
     private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
         if (input.get(QUERY_STRING_PARAMETERS) == null) {
-            throw new IllegalArgumentException("Lambda's parameters should not be null");
+            return null;
         }
         return (Map<String, String>) input.get("queryStringParameters");
+    }
+
+    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse response) {
+        logger.log(String.format("Lambda response: %s", response.toJSONString()));
     }
 }

@@ -7,14 +7,9 @@ import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Nullable;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,7 +30,6 @@ public final class BemobiRequestUtils {
     public static Map<String, String> convertToBemobiParameters(final Map<String, String> parametersMap) {
 
         final String apiKey = parametersMap.get(API_KEY_PARAM);
-        Objects.requireNonNull(apiKey, String.format("ApiKey have to be provided as request parameter \"%s\"", API_KEY_PARAM));
 
         final var map = new HashMap<String, String>();
         map.put(ACCOUNT_ID_PARAM, parametersMap.get(ACCOUNT_ID_PARAM));

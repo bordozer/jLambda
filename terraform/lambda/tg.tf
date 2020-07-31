@@ -1,7 +1,9 @@
 resource "aws_lb_target_group" "lb_tg" {
   name = "tf-${var.service_instance_name}-tg"
   target_type = "lambda"
-  lambda_multi_value_headers_enabled = true
+  // if false then all http parameters are in 'queryStringParameters' (see com.bordozer.jlambda.handler.LambdaHandler)
+  // if true - in 'multiValueQueryStringParameters'
+  lambda_multi_value_headers_enabled = false
 
   // Be aware: https://aws.amazon.com/lambda/pricing/
   health_check {
