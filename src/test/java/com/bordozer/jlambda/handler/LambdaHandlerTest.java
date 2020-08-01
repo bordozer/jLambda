@@ -17,13 +17,13 @@ import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 class LambdaHandlerTest {
 
     private static final String HEALTH_CHECK_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 200, "Health check is OK"
+            readSystemResource("lambda-response-template.json"), 200, "{\"payload\":\"Health check is OK\"}".replace("\"", "\\\"")
     );
     private static final String MISSED_LAMBDA_PARAMETERS_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "Lambda's parameters should not be null"
+            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"Lambda's parameters should not be null\"}".replace("\"", "\\\"")
     );
     private static final String MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "ApiKey have to be provided as request parameter 'ApiKey'"
+            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"ApiKey have to be provided as request parameter 'ApiKey'\"}".replace("\"", "\\\"")
     );
 
     @Test
