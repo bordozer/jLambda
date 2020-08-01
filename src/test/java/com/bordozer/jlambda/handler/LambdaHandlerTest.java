@@ -1,6 +1,5 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.utils.TestUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -16,15 +15,9 @@ import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 @Slf4j
 class LambdaHandlerTest {
 
-    private static final String HEALTH_CHECK_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 200, "{\"payload\":\"Health check is OK\"}".replace("\"", "\\\"")
-    );
-    private static final String MISSED_LAMBDA_PARAMETERS_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"Lambda's parameters should not be null\"}".replace("\"", "\\\"")
-    );
-    private static final String MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 422, "{\"payload\":\"ApiKey have to be provided as request parameter 'ApiKey'\"}".replace("\"", "\\\"")
-    );
+    private static final String HEALTH_CHECK_EXPECTED_RESPONSE = expectedResponseBody(200, "{\"payload\":\"Health check is OK\"}");
+    private static final String MISSED_LAMBDA_PARAMETERS_EXPECTED_RESPONSE = expectedResponseBody(422, "{\"payload\":\"Lambda's parameters should not be null\"}");
+    private static final String MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE = expectedResponseBody(422, "{\"payload\":\"ApiKey have to be provided as request parameter 'ApiKey'\"}");
 
     @Test
     @SneakyThrows
@@ -63,5 +56,9 @@ class LambdaHandlerTest {
 
         // then
         JSONAssert.assertEquals(MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE, response.toJSONString(), false);
+    }
+
+    private static String expectedResponseBody(final int responseCode, final String responseMessage) {
+        return String.format(readSystemResource("lambda-response-template.json"), responseCode, responseMessage.replace("\"", "\\\""));
     }
 }
