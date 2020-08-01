@@ -7,6 +7,8 @@ import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
 import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.model.LambdaResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
@@ -33,7 +35,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var requestParameters = getRequestParameters(input);
         if (requestParameters == null) {
-            final var response = new LambdaResponse(422, "Lambda's parameters should not be null");
+            final var response = new LambdaResponse(422, LambdaResponsePayload.of("Lambda's parameters should not be null"));
             logLambdaResponse(logger, response);
             return response;
         }
@@ -41,14 +43,14 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            final var response = new LambdaResponse(200, "Health check is OK");
+            final var response = new LambdaResponse(200, LambdaResponsePayload.of("Health check is OK"));
             logLambdaResponse(logger, response);
             return response;
         }
 
         @Nullable final var apiKey = requestParameters.get(API_KEY_PARAM);
         if (StringUtils.isBlank(apiKey)) {
-            final var response = new LambdaResponse(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
+            final var response = new LambdaResponse(422, LambdaResponsePayload.of(String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM)));
             logLambdaResponse(logger, response);
             return response;
         }
@@ -83,5 +85,15 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
     private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse response) {
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    private static class LambdaResponsePayload {
+        private final String payload;
+
+        private static LambdaResponsePayload of(final String value) {
+            return new LambdaResponsePayload(value);
+        }
     }
 }
