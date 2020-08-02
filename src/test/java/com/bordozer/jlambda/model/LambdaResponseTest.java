@@ -2,8 +2,6 @@ package com.bordozer.jlambda.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.Serializable;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LambdaResponseTest {
