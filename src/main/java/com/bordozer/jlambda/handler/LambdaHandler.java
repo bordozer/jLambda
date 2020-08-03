@@ -1,10 +1,11 @@
 package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.bemobi.sdk.BemobiClient;
+import com.bordozer.bemobi.sdk.Logger;
 import com.bordozer.jlambda.model.LambdaResponse;
+import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,7 @@ import org.json.simple.JSONObject;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.API_KEY_PARAM;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
@@ -22,9 +23,9 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
-        final LambdaLogger logger = context.getLogger();
+        final Logger logger = AwsLogger.of(context.getLogger());
 
-        logger.log(String.format("Lambda input: %s", LoggableJson.of(input).toString()));
+        logger.log(String.format("Lambda input: %s", JsonUtils.write(input)));
 
         @Nullable final var requestParameters = getRequestParameters(input);
         if (requestParameters == null) {
@@ -32,7 +33,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             logLambdaResponse(logger, response);
             return response;
         }
-        logger.log(String.format("Request parameters: \"%s\"", LoggableJson.of(requestParameters).toString()));
+        logger.log(String.format("Request parameters: \"%s\"", JsonUtils.write(requestParameters)));
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
@@ -70,7 +71,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         return (Map<String, String>) input.get("queryStringParameters");
     }
 
-    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse response) {
+    private void logLambdaResponse(final Logger logger, final LambdaResponse response) {
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
     }
 

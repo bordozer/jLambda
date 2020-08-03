@@ -1,9 +1,8 @@
-package com.bordozer.jlambda.handler;
+package com.bordozer.bemobi.sdk;
 
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
-import com.bordozer.jlambda.model.BemobiRequest;
-import com.bordozer.jlambda.model.BemobiParameters;
-import com.bordozer.jlambda.model.BemobiResponse;
+import com.bordozer.bemobi.sdk.model.BemobiParameters;
+import com.bordozer.bemobi.sdk.model.BemobiRequest;
+import com.bordozer.bemobi.sdk.model.BemobiResponse;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -27,9 +26,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BemobiClient {
 
-    private static final int CONNECTION_TIMEOUT_MS = 20000;
+    public static final String SERVER_SCHEME = "http";
+    public static final String SERVER_HOST = "bpx.bemobi.com";
+    public static final int SERVER_PORT = 80;
 
-    private final LambdaLogger logger;
+    public static final String SERVER_PATH = "/opx/1.0/OPXSendSms";
+    public static final String AUTH_STRING_PARAM = "AuthString";
+    public static final String API_KEY_PARAM = "ApiKey";
+    public static final String ACCOUNT_ID_PARAM = "AccountID";
+    public static final String MSISDN_PARAM = "Msisdn";
+    public static final String OPX_USER_ID_PARAM = "OPXUserID";
+    public static final String SITE_ID_PARAM = "SiteID";
+    public static final String MESSAGE_PARAM = "Message";
+    public static final String CURRENT_TIME_PARAM = "CurrentTime";
+
+    private static final int CONNECTION_TIMEOUT_MS = 20000;
+    public static final String OPTIONAL_UNSPECIFIED_PARAM_VALUE = "unspecified";
+
+    private final Logger logger;
 
     @SneakyThrows
     public BemobiResponse get(final BemobiRequest request) {

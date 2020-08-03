@@ -1,6 +1,6 @@
 package com.bordozer.jlambda.model;
 
-import com.bordozer.commons.utils.JsonUtils;
+import com.bordozer.jlambda.utils.JsonUtils;
 import org.json.simple.JSONObject;
 
 public class LambdaResponse extends JSONObject {

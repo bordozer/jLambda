@@ -1,8 +1,9 @@
 package com.bordozer.jlambda.handler;
 
-import com.bordozer.jlambda.model.BemobiRequest;
-import com.bordozer.jlambda.model.BemobiResponse;
-import com.bordozer.jlambda.utils.TestLambdaLogger;
+import com.bordozer.bemobi.sdk.BemobiClient;
+import com.bordozer.bemobi.sdk.model.BemobiRequest;
+import com.bordozer.bemobi.sdk.model.BemobiResponse;
+import com.bordozer.jlambda.utils.TestLogger;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -10,19 +11,19 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.HashMap;
 
-import static com.bordozer.commons.utils.FileUtils.readSystemResource;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.AUTH_STRING_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.CURRENT_TIME_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MESSAGE_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MSISDN_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.OPX_USER_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.SITE_ID_PARAM;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_HOST;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PATH;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PORT;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_SCHEME;
+import static com.bordozer.bemobi.sdk.BemobiClient.ACCOUNT_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.API_KEY_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.AUTH_STRING_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.CURRENT_TIME_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MESSAGE_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MSISDN_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.OPX_USER_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
+import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
+import static com.bordozer.jlambda.utils.CommonUtils.readResource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,7 +42,7 @@ class BemobiHandlerTest {
             .build();
 
     private static final String LAMBDA_EXPECTED_RESPONSE = String.format(
-            readSystemResource("lambda-response-template.json"), 200, "{\"statusCode\":0,\"reason\":\"Message sent successfully\"}".replace("\"", "\\\"")
+            readResource("lambda-response-template.json"), 200, "{\"statusCode\":0,\"reason\":\"Message sent successfully\"}".replace("\"", "\\\"")
     );
     private static final String FAKE_API_KEY_HEX = "1056E0F39CD97BE9AE45A";
 
@@ -65,7 +66,7 @@ class BemobiHandlerTest {
         // when
         final var handler = BemobiHandler.builder()
                 .bemobiClient(bemobiClient)
-                .logger(TestLambdaLogger.LAMBDA_LOGGER)
+                .logger(TestLogger.TEST_LOGGER)
                 .build();
         final var response = handler.handle(requestParameters);
 

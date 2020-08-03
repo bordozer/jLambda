@@ -1,17 +1,17 @@
-package com.bordozer.jlambda.bemobi;
+package com.bordozer.jlambda.utils;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.AUTH_STRING_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.CURRENT_TIME_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MESSAGE_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MSISDN_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.OPX_USER_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.SITE_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.ACCOUNT_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.API_KEY_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.AUTH_STRING_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.CURRENT_TIME_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MESSAGE_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MSISDN_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.OPX_USER_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BemobiRequestUtilsTest {

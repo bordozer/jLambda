@@ -1,14 +1,16 @@
-package com.bordozer.jlambda.utils;
+package com.bordozer.bemobi.sdk.utils;
 
 import com.google.common.io.Resources;
+import com.google.gson.Gson;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
-public class CommonUtils {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class CommonUtils {
 
     @SneakyThrows
     public static String readResource(final String name) {
@@ -16,7 +18,7 @@ public class CommonUtils {
         return Resources.toString(url, StandardCharsets.UTF_8);
     }
 
-    public static long getCurrentEpochTime() {
-        return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    public static String toJson(final Object obj) {
+        return new Gson().toJson(obj);
     }
 }

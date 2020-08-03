@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.model;
+package com.bordozer.bemobi.sdk.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,13 +7,13 @@ import lombok.NonNull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.AUTH_STRING_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.CURRENT_TIME_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MESSAGE_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MSISDN_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.OPX_USER_ID_PARAM;
-import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.SITE_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.ACCOUNT_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.AUTH_STRING_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.CURRENT_TIME_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MESSAGE_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MSISDN_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.OPX_USER_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
 
 @Getter
 @Builder

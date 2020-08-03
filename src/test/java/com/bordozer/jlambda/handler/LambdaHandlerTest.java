@@ -7,8 +7,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.Collections;
 
-import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.handler.LambdaHandler.HEALTH_CHECK;
+import static com.bordozer.jlambda.utils.CommonUtils.readResource;
 import static com.bordozer.jlambda.utils.TestUtils.getContext;
 import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 
@@ -60,7 +60,7 @@ class LambdaHandlerTest {
 
     private static String expectedResponse(final int responseCode, final String responseMessage) {
         return String.format(
-                readSystemResource("lambda-response-template.json"),
+                readResource("lambda-response-template.json"),
                 responseCode,
                 String.format("{\"payload\":\"%s\"}", responseMessage).replace("\"", "\\\"")
         );

@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.model;
+package com.bordozer.bemobi.sdk.model;
 
 import lombok.Builder;
 import lombok.Getter;

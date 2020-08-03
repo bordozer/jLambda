@@ -1,18 +1,17 @@
-package com.bordozer.jlambda.handler;
+package com.bordozer.bemobi.sdk;
 
-import com.bordozer.commons.utils.LoggableJson;
-import com.bordozer.jlambda.model.BemobiParameters;
-import com.bordozer.jlambda.model.BemobiRequest;
+import com.bordozer.bemobi.sdk.model.BemobiParameters;
+import com.bordozer.bemobi.sdk.model.BemobiRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_HOST;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PATH;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PORT;
-import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_SCHEME;
-import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
+import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
+import static com.bordozer.bemobi.sdk.utils.CommonUtils.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -56,11 +55,11 @@ class BemobiSmsServiceIntegrationTest {
                 .path(SERVER_PATH)
                 .parameters(bemobiParameters)
                 .build();
-        log.info("Bemobi request: \"{}\"", LoggableJson.of(bemobiRequest).toString());
+        log.info("Bemobi request: \"{}\"", toJson(bemobiRequest));
 
         // when
-        final var response = new BemobiClient(LAMBDA_LOGGER).get(bemobiRequest);
-        log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(bemobiRequest).toString());
+        final var response = new BemobiClient(TestLambdaLogger.LAMBDA_LOGGER).get(bemobiRequest);
+        log.info("Bemobi SMS service response: \"{}\"", toJson(bemobiRequest));
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(1001);
