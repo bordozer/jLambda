@@ -9,12 +9,23 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import java.util.HashMap;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MESSAGE_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MSISDN_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.OPX_USER_ID_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.SITE_ID_PARAM;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class BemobiHandlerTest {
+
+    private static final String ACCOUNT_ID = "account-id";
+    private static final String SITE_ID = "site-id";
+    private static final String MSISDN = "msisdn";
+    private static final String USER_ID = "user-id";
+    private static final String MESSAGE = "message";
 
     private static final BemobiResponse BEMOBI_RESPONSE = BemobiResponse.builder()
             .StatusCode(0)
@@ -35,7 +46,11 @@ class BemobiHandlerTest {
 
         final var requestParameters = new HashMap<String, String>();
         requestParameters.put(API_KEY_PARAM, FAKE_API_KEY_HEX);
-        requestParameters.put("param", "value");
+        requestParameters.put(ACCOUNT_ID_PARAM, ACCOUNT_ID);
+        requestParameters.put(MSISDN_PARAM, MSISDN);
+        requestParameters.put(OPX_USER_ID_PARAM, USER_ID);
+        requestParameters.put(SITE_ID_PARAM, SITE_ID);
+        requestParameters.put(MESSAGE_PARAM, MESSAGE);
 
         // when
         final var handler = BemobiHandler.builder()
