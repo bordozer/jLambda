@@ -47,7 +47,7 @@ public final class BemobiRequestUtils {
                 .msisdn(map.get(MSISDN_PARAM))
                 .opxUserId(map.get(OPX_USER_ID_PARAM))
                 .message(map.get(MESSAGE_PARAM))
-                .currentTime(String.valueOf(CommonUtils.getCurrentEpochTime()))
+                .currentTime(map.get(CURRENT_TIME_PARAM))
                 .build();
     }
 
