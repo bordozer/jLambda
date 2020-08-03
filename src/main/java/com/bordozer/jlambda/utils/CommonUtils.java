@@ -5,8 +5,6 @@ import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class CommonUtils {
 
@@ -14,9 +12,5 @@ public class CommonUtils {
     public static String readResource(final String name) {
         final URL url = Resources.getResource(name);
         return Resources.toString(url, StandardCharsets.UTF_8);
-    }
-
-    public static long getCurrentEpochTime() {
-        return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 }

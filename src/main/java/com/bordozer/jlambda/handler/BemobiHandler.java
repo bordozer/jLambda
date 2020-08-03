@@ -16,8 +16,8 @@ import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
+import static com.bordozer.bemobi.sdk.utils.BemobiRequestUtils.convertToBemobiParameters;
 import static com.bordozer.jlambda.converter.BemobiResponseCodeConverter.convertToLambdaResponseCode;
-import static com.bordozer.jlambda.utils.BemobiRequestUtils.convertToBemobiParameters;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder

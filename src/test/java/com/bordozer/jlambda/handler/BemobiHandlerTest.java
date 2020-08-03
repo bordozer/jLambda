@@ -37,8 +37,8 @@ class BemobiHandlerTest {
     private static final String MESSAGE = "message";
 
     private static final BemobiResponse BEMOBI_RESPONSE = BemobiResponse.builder()
-            .StatusCode(0)
-            .Reason("Message sent successfully")
+            .statusCode(0)
+            .reason("Message sent successfully")
             .build();
 
     private static final String LAMBDA_EXPECTED_RESPONSE = String.format(

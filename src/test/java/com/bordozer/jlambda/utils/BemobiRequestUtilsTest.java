@@ -1,5 +1,6 @@
 package com.bordozer.jlambda.utils;
 
+import com.bordozer.bemobi.sdk.utils.BemobiRequestUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -1,6 +1,5 @@
-package com.bordozer.jlambda.utils;
+package com.bordozer.bemobi.sdk.utils;
 
-import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.model.BemobiParameters;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,30 +12,40 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.bordozer.bemobi.sdk.BemobiClient.ACCOUNT_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.API_KEY_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.AUTH_STRING_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.CURRENT_TIME_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MESSAGE_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.MSISDN_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.OPTIONAL_UNSPECIFIED_PARAM_VALUE;
+import static com.bordozer.bemobi.sdk.BemobiClient.OPX_USER_ID_PARAM;
+import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BemobiRequestUtils {
 
-    public static BemobiParameters convertToBemobiParameters(final Map<String, String> parametersMap) {
+    public static BemobiParameters convertToBemobiParameters(final Map<String, String> requestParameters) {
 
         final var map = new HashMap<String, String>();
-        map.put(BemobiClient.ACCOUNT_ID_PARAM, parametersMap.get(BemobiClient.ACCOUNT_ID_PARAM));
-        map.put(BemobiClient.MSISDN_PARAM, parametersMap.get(BemobiClient.MSISDN_PARAM));
-        map.put(BemobiClient.OPX_USER_ID_PARAM, parametersMap.get(BemobiClient.OPX_USER_ID_PARAM));
-        map.put(BemobiClient.SITE_ID_PARAM, parametersMap.get(BemobiClient.SITE_ID_PARAM));
-        map.put(BemobiClient.MESSAGE_PARAM, parametersMap.get(BemobiClient.MESSAGE_PARAM));
-        map.put(BemobiClient.CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
+        map.put(ACCOUNT_ID_PARAM, requestParameters.get(ACCOUNT_ID_PARAM));
+        map.put(MSISDN_PARAM, requestParameters.get(MSISDN_PARAM));
+        map.put(OPX_USER_ID_PARAM, requestParameters.get(OPX_USER_ID_PARAM));
+        map.put(SITE_ID_PARAM, requestParameters.get(SITE_ID_PARAM));
+        map.put(MESSAGE_PARAM, requestParameters.get(MESSAGE_PARAM));
+        map.put(CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
 
-        final String authString = calculateAuthString(parametersMap.get(BemobiClient.API_KEY_PARAM), map);
-        map.put(BemobiClient.AUTH_STRING_PARAM, authString);
+        final String authString = calculateAuthString(requestParameters.get(API_KEY_PARAM), map);
+        map.put(AUTH_STRING_PARAM, authString);
 
         return BemobiParameters.builder()
-                .authString(map.get(BemobiClient.AUTH_STRING_PARAM))
-                .accountId(map.get(BemobiClient.ACCOUNT_ID_PARAM))
-                .siteId(map.get(BemobiClient.SITE_ID_PARAM))
-                .msisdn(map.get(BemobiClient.MSISDN_PARAM))
-                .opxUserId(map.get(BemobiClient.OPX_USER_ID_PARAM))
-                .message(map.get(BemobiClient.MESSAGE_PARAM))
-                .currentTime(map.get(BemobiClient.CURRENT_TIME_PARAM))
+                .authString(map.get(AUTH_STRING_PARAM))
+                .accountId(map.get(ACCOUNT_ID_PARAM))
+                .siteId(map.get(SITE_ID_PARAM))
+                .msisdn(map.get(MSISDN_PARAM))
+                .opxUserId(map.get(OPX_USER_ID_PARAM))
+                .message(map.get(MESSAGE_PARAM))
+                .currentTime(map.get(CURRENT_TIME_PARAM))
                 .build();
     }
 
@@ -54,7 +63,7 @@ public final class BemobiRequestUtils {
 
     private static String convertValue(final String value) {
         if (StringUtils.isBlank(value)) {
-            return BemobiClient.OPTIONAL_UNSPECIFIED_PARAM_VALUE;
+            return OPTIONAL_UNSPECIFIED_PARAM_VALUE;
         }
         return value.toLowerCase();
     }
