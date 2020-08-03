@@ -7,9 +7,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
-import org.skyscreamer.jsonassert.JSONAssert;
 
-import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_HOST;
 import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PATH;
 import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PORT;
@@ -29,8 +27,6 @@ class BemobiSmsServiceIntegrationTest {
     public static final String MSISDN_ENV = "MSISDN";
     public static final String OPX_USER_ID_ENV = "OPX_USER_ID";
     public static final String SITE_ID_ENV = "SITE_ID";
-
-    private static final String BEMOBI_EXPECTED_RESPONSE = readSystemResource("bemobi-successful-expected-response.json");
 
     @Test
     @SneakyThrows
@@ -67,7 +63,7 @@ class BemobiSmsServiceIntegrationTest {
         log.info("Bemobi SMS service response: \"{}\"", LoggableJson.of(bemobiRequest).toString());
 
         // then
-        assertThat(response.getStatusCode()).isEqualTo(0);
-        JSONAssert.assertEquals(BEMOBI_EXPECTED_RESPONSE, response.getReason(), false);
+        assertThat(response.getStatusCode()).isEqualTo(1001);
+        assertThat(response.getReason()).isEqualTo("failed to send sms to user");
     }
 }
