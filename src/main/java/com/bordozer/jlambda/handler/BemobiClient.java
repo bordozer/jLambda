@@ -32,15 +32,13 @@ public class BemobiClient {
     private final LambdaLogger logger;
 
     @SneakyThrows
-    public BemobiResponse get(final BemobiRequest serviceRequest) {
-        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
-
+    public BemobiResponse get(final BemobiRequest request) {
         final URIBuilder builder = new URIBuilder();
-        builder.setScheme(serviceRequest.getSchema())
-                .setHost(serviceRequest.getHost())
-                .setPort(serviceRequest.getPort())
-                .setPath(serviceRequest.getPath())
-                .setParameters(urlParameters);
+        builder.setScheme(request.getSchema())
+                .setHost(request.getHost())
+                .setPort(request.getPort())
+                .setPath(request.getPath())
+                .setParameters(getUrlParameters(request.getParameters()));
         final URI uri = builder.build();
         logger.log(String.format("Bemobi request string: \"%s\"", uri.toString()));
 
@@ -65,7 +63,7 @@ public class BemobiClient {
         }
     }
 
-    private static List<NameValuePair> getParameters(final BemobiParameters bemobiParameters) {
+    private static List<NameValuePair> getUrlParameters(final BemobiParameters bemobiParameters) {
         return bemobiParameters.asMap().entrySet().stream()
                 .map(entry -> new BasicNameValuePair(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
