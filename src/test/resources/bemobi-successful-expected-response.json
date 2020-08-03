@@ -1,4 +1,4 @@
 {
-  "StatusCode": "0",
-  "Reason": "Message sent successfully"
+  "StatusCode": "1001",
+  "Reason": "failed to send sms to user"
 }

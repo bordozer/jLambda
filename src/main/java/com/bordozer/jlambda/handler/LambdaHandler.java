@@ -4,8 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.commons.utils.LoggableJson;
-import com.bordozer.jlambda.bemobi.BemobiRequestUtils;
-import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.model.LambdaResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,6 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
-import static com.bordozer.jlambda.handler.BemobiHandler.HEALTH_CHECK;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
@@ -26,6 +23,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
     public static final String SERVER_PATH = "/opx/1.0/OPXSendSms";
 
     public static final String QUERY_STRING_PARAMETERS = "queryStringParameters";
+    public static final String HEALTH_CHECK = "health-check";
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
@@ -55,22 +53,12 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             return response;
         }
 
-        final Map<String, String> bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(requestParameters);
-
-        final var serviceRequest = BemobiRequest.builder()
-                .schema(SERVER_SCHEME)
-                .host(SERVER_HOST)
-                .port(SERVER_PORT)
-                .path(SERVER_PATH)
-                .parameters(bemobiParameters)
-                .build();
-
         final var handler = BemobiHandler.builder()
-                .serviceRequest(serviceRequest)
+                .bemobiClient(new BemobiClient(logger))
                 .logger(logger)
                 .build();
 
-        final var response = handler.handle();
+        final var response = handler.handle(requestParameters);
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
         return response;
     }

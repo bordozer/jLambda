@@ -2,6 +2,7 @@ package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.bordozer.jlambda.model.BemobiRequest;
+import com.bordozer.jlambda.model.BemobiRequest.BemobiParameters;
 import com.bordozer.jlambda.model.BemobiResponse;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class BemobiClient {
 
     @SneakyThrows
     public BemobiResponse get(final BemobiRequest serviceRequest) {
-        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
+        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getBemobiParameters());
 
         final URIBuilder builder = new URIBuilder();
         builder.setScheme(serviceRequest.getSchema())
@@ -65,9 +65,9 @@ public class BemobiClient {
         }
     }
 
-    private static List<NameValuePair> getParameters(final Map<String, String> httpParametersMap) {
-        return httpParametersMap.keySet().stream()
-                .map(parameter -> new BasicNameValuePair(parameter, httpParametersMap.get(parameter)))
+    private static List<NameValuePair> getParameters(final BemobiParameters bemobiParameters) {
+        return bemobiParameters.asMap().entrySet().stream()
+                .map(entry -> new BasicNameValuePair(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
 }
