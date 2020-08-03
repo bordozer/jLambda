@@ -1,6 +1,5 @@
 package com.bordozer.jlambda.model;
 
-import com.bordozer.jlambda.utils.CommonUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -42,7 +41,7 @@ public class BemobiParameters {
         map.put(MSISDN_PARAM, msisdn);
         map.put(OPX_USER_ID_PARAM, opxUserId);
         map.put(MESSAGE_PARAM, message);
-        map.put(CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
+        map.put(CURRENT_TIME_PARAM, currentTime);
         return map;
     }
 }

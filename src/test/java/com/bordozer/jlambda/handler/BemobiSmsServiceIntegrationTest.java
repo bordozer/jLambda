@@ -50,7 +50,7 @@ class BemobiSmsServiceIntegrationTest {
                 .msisdn(msisdn)
                 .opxUserId(opxUserId)
                 .message(message)
-                .currentTime("1596443408485")
+                .currentTime("1596445116151")
                 .build();
 
         final var bemobiRequest = BemobiRequest.builder()
