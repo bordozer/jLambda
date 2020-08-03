@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.utils;
+package com.bordozer.bemobi.sdk.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,12 +11,12 @@ public final class JsonUtils {
 
     private static final ObjectWriter WRITER;
     private static final ObjectReader READER;
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        mapper.findAndRegisterModules();
-        WRITER = mapper.writer();
-        READER = mapper.reader();
+        MAPPER.findAndRegisterModules();
+        WRITER = MAPPER.writer();
+        READER = MAPPER.reader();
     }
 
     private JsonUtils() {

@@ -2,6 +2,7 @@ package com.bordozer.bemobi.sdk;
 
 import com.bordozer.bemobi.sdk.model.BemobiParameters;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;
+import com.bordozer.bemobi.sdk.utils.JsonUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,6 @@ import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
-import static com.bordozer.bemobi.sdk.utils.CommonUtils.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -55,11 +55,11 @@ class BemobiSmsServiceIntegrationTest {
                 .path(SERVER_PATH)
                 .parameters(bemobiParameters)
                 .build();
-        log.info("Bemobi request: \"{}\"", toJson(bemobiRequest));
+        log.info("Bemobi request: \"{}\"", JsonUtils.write(bemobiRequest));
 
         // when
         final var response = new BemobiClient(TestLambdaLogger.LAMBDA_LOGGER).get(bemobiRequest);
-        log.info("Bemobi SMS service response: \"{}\"", toJson(bemobiRequest));
+        log.info("Bemobi SMS service response: \"{}\"", JsonUtils.write(bemobiRequest));
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(1001);

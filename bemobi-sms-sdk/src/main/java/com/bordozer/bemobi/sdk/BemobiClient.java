@@ -3,7 +3,7 @@ package com.bordozer.bemobi.sdk;
 import com.bordozer.bemobi.sdk.model.BemobiParameters;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;
 import com.bordozer.bemobi.sdk.model.BemobiResponse;
-import com.google.gson.Gson;
+import com.bordozer.bemobi.sdk.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
@@ -72,7 +72,7 @@ public class BemobiClient {
                 final HttpEntity entity = response.getEntity();
                 final var responseBody = EntityUtils.toString(entity);
                 // TODO: deserialize ignoring case
-                return new Gson().fromJson(responseBody, BemobiResponse.class);
+                return JsonUtils.read(responseBody, BemobiResponse.class);
             }
         }
     }
