@@ -17,7 +17,7 @@ public class BemobiResponseDeserializer extends JsonDeserializer<BemobiResponse>
     @Override
     public BemobiResponse deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
         final JsonNode node = jp.getCodec().readTree(jp);
-        final int statusCode = node.get(BEMOBI_STATUS_CODE_PROP).intValue();
+        final int statusCode = node.get(BEMOBI_STATUS_CODE_PROP).asInt();
         final String reason = node.get(BEMOBI_REASON_PROP).asText();
         return BemobiResponse.builder()
                 .statusCode(statusCode)
