@@ -69,18 +69,18 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.bordozer.jlambda.LambdaHandler"
+        attributes "Main-Class": "com.bordozer.jlambda.handler.LambdaHandler"
     }
 
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 task shadowJar(type: Jar) {
     zip64 true
     manifest {
-        attributes 'Main-Class': 'com.bordozer.jlambda.LambdaHandler'
+        attributes 'Main-Class': 'com.bordozer.jlambda.handler.LambdaHandler'
     }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
