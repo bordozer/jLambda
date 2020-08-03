@@ -1,5 +1,6 @@
 package com.bordozer.jlambda.handler;
 
+import com.bordozer.jlambda.model.BemobiParameters;
 import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.utils.CommonUtils;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -7,9 +8,6 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
@@ -76,19 +74,22 @@ class BemobiClientTest {
                 )
         );
 
+        final var bemobiParameters = BemobiParameters.builder()
+                .authString(AUTH_STRING)
+                .accountId(ACCOUNT_ID)
+                .siteId(SITE_ID)
+                .msisdn(MSISDN)
+                .opxUserId(USER_ID)
+                .message(MESSAGE)
+                .currentTime(String.valueOf(CommonUtils.getCurrentEpochTime()))
+                .build();
+
         final var serviceRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .withParameters()
-                    .authString(AUTH_STRING)
-                    .accountId(ACCOUNT_ID)
-                    .siteId(SITE_ID)
-                    .msisdn(MSISDN)
-                    .opxUserId(USER_ID)
-                    .message(MESSAGE)
-                    .currentTime(String.valueOf(CommonUtils.getCurrentEpochTime()))
+                .parameters(bemobiParameters)
                 .build();
 
         // when

@@ -1,5 +1,7 @@
 package com.bordozer.jlambda.bemobi;
 
+import com.bordozer.jlambda.model.BemobiParameters;
+import com.bordozer.jlambda.utils.CommonUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -7,6 +9,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,30 @@ public final class BemobiRequestUtils {
 
     private static final String OPTIONAL_UNSPECIFIED_PARAM_VALUE = "unspecified";
 
+    public static BemobiParameters convertToBemobiParameters(final Map<String, String> parametersMap) {
+
+        final var map = new HashMap<String, String>();
+        map.put(ACCOUNT_ID_PARAM, parametersMap.get(ACCOUNT_ID_PARAM));
+        map.put(MSISDN_PARAM, parametersMap.get(MSISDN_PARAM));
+        map.put(OPX_USER_ID_PARAM, parametersMap.get(OPX_USER_ID_PARAM));
+        map.put(SITE_ID_PARAM, parametersMap.get(SITE_ID_PARAM));
+        map.put(MESSAGE_PARAM, parametersMap.get(MESSAGE_PARAM));
+        map.put(CURRENT_TIME_PARAM, String.valueOf(CommonUtils.getCurrentEpochTime()));
+
+        final String authString = calculateAuthString(parametersMap.get(API_KEY_PARAM), map);
+        map.put(AUTH_STRING_PARAM, authString);
+
+        return BemobiParameters.builder()
+                .authString(map.get(AUTH_STRING_PARAM))
+                .accountId(map.get(ACCOUNT_ID_PARAM))
+                .siteId(map.get(SITE_ID_PARAM))
+                .msisdn(map.get(MSISDN_PARAM))
+                .opxUserId(map.get(OPX_USER_ID_PARAM))
+                .message(map.get(MESSAGE_PARAM))
+                .currentTime(String.valueOf(CommonUtils.getCurrentEpochTime()))
+                .build();
+    }
+
     public static String calculateAuthString(final String apiKey, final Map<String, String> map) {
         final String concatenatedParameters = map
                 .entrySet()
@@ -33,8 +60,7 @@ public final class BemobiRequestUtils {
                 .collect(Collectors.joining());
 
         final byte[] bemobiKeyBytes = convertHexStr2Bytes(apiKey);
-        final String authString = new HmacUtils(HmacAlgorithms.HMAC_SHA_1, bemobiKeyBytes).hmacHex(concatenatedParameters);
-        return authString;
+        return new HmacUtils(HmacAlgorithms.HMAC_SHA_1, bemobiKeyBytes).hmacHex(concatenatedParameters);
     }
 
     private static String convertValue(final String value) {

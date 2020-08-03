@@ -2,7 +2,7 @@ package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.bordozer.jlambda.model.BemobiRequest;
-import com.bordozer.jlambda.model.BemobiRequest.BemobiParameters;
+import com.bordozer.jlambda.model.BemobiParameters;
 import com.bordozer.jlambda.model.BemobiResponse;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class BemobiClient {
 
     @SneakyThrows
     public BemobiResponse get(final BemobiRequest serviceRequest) {
-        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getBemobiParameters());
+        final List<NameValuePair> urlParameters = getParameters(serviceRequest.getParameters());
 
         final URIBuilder builder = new URIBuilder();
         builder.setScheme(serviceRequest.getSchema())

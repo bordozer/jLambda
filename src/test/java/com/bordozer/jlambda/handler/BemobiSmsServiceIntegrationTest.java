@@ -1,8 +1,8 @@
 package com.bordozer.jlambda.handler;
 
 import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.jlambda.model.BemobiParameters;
 import com.bordozer.jlambda.model.BemobiRequest;
-import com.bordozer.jlambda.utils.CommonUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -34,29 +34,31 @@ class BemobiSmsServiceIntegrationTest {
 
     @Test
     @SneakyThrows
-    void shouldGetSuccessfulBemobiServiceResponse() {
+    void shouldGetBemobiServiceResponse() {
         // given
         final var authString = System.getenv(AUTH_STRING);
         final var accountId = System.getenv(ACCOUNT_ID_ENV);
         final var msisdn = System.getenv(MSISDN_ENV);
         final var opxUserId = System.getenv(OPX_USER_ID_ENV);
         final var siteId = System.getenv(SITE_ID_ENV);
-        final var message = "download bsafe"; // The message string should not be URL encoded
+        final var message = "joinbsafe"; // The message string should not be URL encoded
 
+        final var bemobiParameters = BemobiParameters.builder()
+                .authString(authString)
+                .accountId(accountId)
+                .siteId(siteId)
+                .msisdn(msisdn)
+                .opxUserId(opxUserId)
+                .message(message)
+                .currentTime("1596443408485")
+                .build();
 
         final var bemobiRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .withParameters()
-                .authString(AUTH_STRING)
-                .accountId(accountId)
-                .siteId(siteId)
-                .msisdn(msisdn)
-                .opxUserId(opxUserId)
-                .message(message)
-                .currentTime(String.valueOf(CommonUtils.getCurrentEpochTime()))
+                .parameters(bemobiParameters)
                 .build();
         log.info("Bemobi request: \"{}\"", LoggableJson.of(bemobiRequest).toString());
 
