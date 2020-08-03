@@ -1,9 +1,11 @@
 package com.bordozer.jlambda.handler;
 
+import com.bordozer.jlambda.model.BemobiRequest;
 import com.bordozer.jlambda.model.BemobiResponse;
 import com.bordozer.jlambda.utils.TestLambdaLogger;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.HashMap;
@@ -11,11 +13,17 @@ import java.util.HashMap;
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.ACCOUNT_ID_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.AUTH_STRING_PARAM;
+import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.CURRENT_TIME_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MESSAGE_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.MSISDN_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.OPX_USER_ID_PARAM;
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.SITE_ID_PARAM;
-import static org.mockito.ArgumentMatchers.any;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_HOST;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PATH;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PORT;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_SCHEME;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,8 +49,10 @@ class BemobiHandlerTest {
     @SneakyThrows
     void shouldGetRemoteServiceResponse() {
         // given
+        final var argumentCaptor = ArgumentCaptor.forClass(BemobiRequest.class);
+
         final var bemobiClient = mock(BemobiClient.class);
-        when(bemobiClient.get(any())).thenReturn(BEMOBI_RESPONSE);
+        when(bemobiClient.get(argumentCaptor.capture())).thenReturn(BEMOBI_RESPONSE);
 
         final var requestParameters = new HashMap<String, String>();
         requestParameters.put(API_KEY_PARAM, FAKE_API_KEY_HEX);
@@ -61,5 +71,14 @@ class BemobiHandlerTest {
 
         // then
         JSONAssert.assertEquals(LAMBDA_EXPECTED_RESPONSE, response.toJSONString(), false);
+
+        final var bemobiRequest = argumentCaptor.getValue();
+        assertThat(bemobiRequest.getSchema()).isEqualTo(SERVER_SCHEME);
+        assertThat(bemobiRequest.getHost()).isEqualTo(SERVER_HOST);
+        assertThat(bemobiRequest.getPort()).isEqualTo(SERVER_PORT);
+        assertThat(bemobiRequest.getPath()).isEqualTo(SERVER_PATH);
+        assertThat(bemobiRequest.getParameters().asMap())
+                .hasSize(7)
+                .containsKeys(AUTH_STRING_PARAM, ACCOUNT_ID_PARAM, MSISDN_PARAM, OPX_USER_ID_PARAM, SITE_ID_PARAM, MESSAGE_PARAM, CURRENT_TIME_PARAM);
     }
 }

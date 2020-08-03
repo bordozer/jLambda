@@ -10,10 +10,10 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import static com.bordozer.commons.utils.FileUtils.readSystemResource;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_HOST;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PATH;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PORT;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_SCHEME;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_HOST;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PATH;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_PORT;
+import static com.bordozer.jlambda.handler.BemobiHandler.SERVER_SCHEME;
 import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +50,7 @@ class BemobiSmsServiceIntegrationTest {
                 .msisdn(msisdn)
                 .opxUserId(opxUserId)
                 .message(message)
-                .currentTime("1596445116151")
+                .currentTime("1596446607487")
                 .build();
 
         final var bemobiRequest = BemobiRequest.builder()

@@ -17,11 +17,6 @@ import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.API_KEY_PARAM;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
-    public static final String SERVER_SCHEME = "http";
-    public static final String SERVER_HOST = "bpx.bemobi.com";
-    public static final int SERVER_PORT = 80;
-    public static final String SERVER_PATH = "/opx/1.0/OPXSendSms";
-
     public static final String QUERY_STRING_PARAMETERS = "queryStringParameters";
     public static final String HEALTH_CHECK = "health-check";
 

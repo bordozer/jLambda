@@ -13,14 +13,15 @@ import java.util.Map;
 
 import static com.bordozer.jlambda.bemobi.BemobiRequestUtils.convertToBemobiParameters;
 import static com.bordozer.jlambda.converter.BemobiResponseCodeConverter.convertToLambdaResponseCode;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_HOST;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PATH;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_PORT;
-import static com.bordozer.jlambda.handler.LambdaHandler.SERVER_SCHEME;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class BemobiHandler {
+
+    public static final String SERVER_SCHEME = "http";
+    public static final String SERVER_HOST = "bpx.bemobi.com";
+    public static final int SERVER_PORT = 80;
+    public static final String SERVER_PATH = "/opx/1.0/OPXSendSms";
 
     public static final String HEALTH_CHECK = "health-check";
 
