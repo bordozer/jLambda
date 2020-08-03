@@ -4,6 +4,7 @@ import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.Logger;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;
 import com.bordozer.jlambda.model.LambdaResponse;
+import com.bordozer.jlambda.utils.BemobiParametersBuilder;
 import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,6 @@ import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
-import static com.bordozer.bemobi.sdk.utils.BemobiRequestUtils.convertToBemobiParameters;
 import static com.bordozer.jlambda.converter.BemobiResponseCodeConverter.convertToLambdaResponseCode;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -36,7 +36,7 @@ public class BemobiHandler {
                 .host(SERVER_HOST)
                 .port(SERVER_PORT)
                 .path(SERVER_PATH)
-                .parameters(convertToBemobiParameters(requestParameters))
+                .parameters(BemobiParametersBuilder.build(requestParameters))
                 .build();
 
         logger.log(String.format("Bemobi request: %s", JsonUtils.write(bemobiRequest)));

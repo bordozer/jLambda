@@ -1,6 +1,6 @@
 package com.bordozer.jlambda.utils;
 
-import com.bordozer.bemobi.sdk.utils.BemobiRequestUtils;
+import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -15,9 +15,10 @@ import static com.bordozer.bemobi.sdk.BemobiClient.OPX_USER_ID_PARAM;
 import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BemobiRequestUtilsTest {
+public class BemobiParametersBuilderTest extends TestCase {
 
     private static final String FAKE_API_KEY_HEX = "1056E0F39CD97BE9AE45A";
+
     private static final String ACCOUNT_ID = "account-id";
     private static final String SITE_ID = "site-id";
     private static final String MSISDN = "msisdn";
@@ -37,7 +38,7 @@ class BemobiRequestUtilsTest {
         map.put("unknownParam", "value");
 
         // when
-        final var bemobiParameters = BemobiRequestUtils.convertToBemobiParameters(map);
+        final var bemobiParameters = BemobiParametersBuilder.build(map);
 
         // then
         assertThat(bemobiParameters.asMap())
