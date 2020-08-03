@@ -45,7 +45,7 @@ class BemobiSmsServiceIntegrationTest {
                 .msisdn(msisdn)
                 .opxUserId(opxUserId)
                 .message(message)
-                .currentTime("1596446607487")
+                .currentTime("1596460160295")
                 .build();
 
         final var bemobiRequest = BemobiRequest.builder()
@@ -62,7 +62,7 @@ class BemobiSmsServiceIntegrationTest {
         log.info("Bemobi SMS service response: \"{}\"", JsonUtils.write(bemobiRequest));
 
         // then
-        assertThat(response.getStatusCode()).isEqualTo(1001);
+        assertThat(response.getStatusCode()).isEqualTo(0);
         assertThat(response.getReason()).isEqualTo("failed to send sms to user");
     }
 }
