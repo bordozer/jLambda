@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.converter;
+package com.bordozer.jlambda.bemobi;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

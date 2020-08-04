@@ -1,10 +1,9 @@
-package com.bordozer.jlambda.handler;
+package com.bordozer.jlambda.bemobi;
 
 import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.Logger;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;
 import com.bordozer.jlambda.model.LambdaResponse;
-import com.bordozer.jlambda.utils.BemobiParametersBuilder;
 import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_HOST;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PATH;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_PORT;
 import static com.bordozer.bemobi.sdk.BemobiClient.SERVER_SCHEME;
-import static com.bordozer.jlambda.converter.BemobiResponseCodeConverter.convertToLambdaResponseCode;
+import static com.bordozer.jlambda.bemobi.BemobiResponseCodeConverter.convertToLambdaResponseCode;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder

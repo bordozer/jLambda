@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.utils;
+package com.bordozer.jlambda.bemobi;
 
 import com.bordozer.bemobi.sdk.model.BemobiParameters;
 import com.bordozer.bemobi.sdk.utils.CommonUtils;
@@ -19,7 +19,7 @@ import static com.bordozer.bemobi.sdk.BemobiClient.SITE_ID_PARAM;
 import static com.bordozer.bemobi.sdk.utils.BemobiUtils.calculateAuthString;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class BemobiParametersBuilder {
+final class BemobiParametersBuilder {
 
     public static BemobiParameters build(final Map<String, String> requestParameters) {
         final var bemobiParameters = extractBemobiParameters(requestParameters);

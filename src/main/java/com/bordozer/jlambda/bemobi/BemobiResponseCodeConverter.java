@@ -1,10 +1,10 @@
-package com.bordozer.jlambda.converter;
+package com.bordozer.jlambda.bemobi;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class BemobiResponseCodeConverter {
+final class BemobiResponseCodeConverter {
 
     public static Integer convertToLambdaResponseCode(final Integer bemobiResponseCode) {
         switch (bemobiResponseCode) {

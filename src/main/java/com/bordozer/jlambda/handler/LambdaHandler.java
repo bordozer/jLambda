@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.Logger;
+import com.bordozer.jlambda.bemobi.BemobiHandler;
 import com.bordozer.jlambda.model.LambdaResponse;
 import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.Getter;

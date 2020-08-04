@@ -1,4 +1,4 @@
-package com.bordozer.jlambda.handler;
+package com.bordozer.jlambda.bemobi;
 
 import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;

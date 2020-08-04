@@ -1,5 +1,6 @@
-package com.bordozer.jlambda.utils;
+package com.bordozer.jlambda.bemobi;
 
+import com.bordozer.jlambda.bemobi.BemobiParametersBuilder;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
