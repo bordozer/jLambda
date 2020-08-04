@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+YELLOW='\e[93m'
+RED='\e[31m'
+DEFAULT='\e[39m'
+
 SERVICE_NAME="jlambda"
 # env: `test` or `prod`
 ENV=$1
@@ -10,9 +14,9 @@ then
       exit 1;
 fi
 
-echo "=================================================="
-echo "Environment '${ENV}' is going to be destroyed ${FORCE}!"
-echo "=================================================="
+echo -e "=================================================="
+echo -e "Environment '${YELLOW}${ENV}${DEFAULT}' is going to be ${RED}destroyed ${FORCE}${DEFAULT}"
+echo -e "=================================================="
 
 if [ "force" = "${FORCE}" ]; then
    terraform destroy "-var-file=env/${ENV}.tfvars" -auto-approve
@@ -24,7 +28,7 @@ CONFIRM_STR="Destroy ${SERVICE_NAME}-${ENV}"
 read -r -p "Type '${CONFIRM_STR}' to proceed: " confirm
 if [ "${confirm}" = "${CONFIRM_STR}" ]; then
    terraform destroy "-var-file=env/${ENV}.tfvars" -auto-approve
-   echo "Environment '${ENV}' has been destroyed. R.I.P."
+   echo "Environment '${YELLOW}${ENV}${DEFAULT}' has been destroyed. R.I.P."
    exit 0
 fi
 

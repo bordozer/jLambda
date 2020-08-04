@@ -57,4 +57,5 @@ resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
   api_id      = aws_api_gateway_rest_api.lambda_api_gateway.id
   stage_name  = aws_api_gateway_deployment.lambda_deploy.stage_name
   domain_name = aws_api_gateway_domain_name.lambda_api_gateway_domain.domain_name
+//  base_path   = var.api_gateway_path
 }
