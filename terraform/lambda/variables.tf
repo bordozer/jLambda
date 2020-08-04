@@ -4,9 +4,13 @@ variable "service_name" {
 }
 variable "service_instance_name" {}
 variable "environment_name" {}
+variable "domain_name" {}
 
 variable "region" {
   default = "eu-west-3"
+}
+variable "route53_zone_id" {
+  default = "ZYQ37WWIE7SAZ"
 }
 
 // The certificate should be in 'us-east-1'
