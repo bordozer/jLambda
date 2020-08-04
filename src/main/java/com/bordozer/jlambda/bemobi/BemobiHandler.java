@@ -3,6 +3,7 @@ package com.bordozer.jlambda.bemobi;
 import com.bordozer.bemobi.sdk.BemobiClient;
 import com.bordozer.bemobi.sdk.Logger;
 import com.bordozer.bemobi.sdk.model.BemobiRequest;
+import com.bordozer.jlambda.api.SmsProvider;
 import com.bordozer.jlambda.model.LambdaResponse;
 import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.AccessLevel;
@@ -20,7 +21,7 @@ import static com.bordozer.jlambda.bemobi.BemobiResponseCodeConverter.convertToL
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class BemobiHandler {
+public class BemobiHandler implements SmsProvider {
 
     public static final String HEALTH_CHECK = "health-check";
 
@@ -29,6 +30,7 @@ public class BemobiHandler {
     @NonNull
     private final Logger logger;
 
+    @Override
     public LambdaResponse handle(final Map<String, String> requestParameters) {
         final BemobiRequest bemobiRequest = BemobiRequest.builder()
                 .schema(SERVER_SCHEME)

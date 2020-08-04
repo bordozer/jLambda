@@ -50,12 +50,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             return response;
         }
 
-        final var handler = BemobiHandler.builder()
-                .bemobiClient(new BemobiClient(logger))
-                .logger(logger)
-                .build();
-
-        final var response = handler.handle(requestParameters);
+        final var response = SmsProviderFactory.instance(logger).handle(requestParameters);
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
         return response;
     }
