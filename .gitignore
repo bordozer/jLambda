@@ -1,6 +1,7 @@
 ### gradle
 .gradle
 /build/
+/bemobi-sms-sdk/build/
 
 ### IntelliJ IDEA ###
 .idea
