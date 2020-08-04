@@ -34,25 +34,6 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
   stage_name  = local.lambda_stage
 }
 
-# Unfortunately the proxy resource cannot match an empty path at the root of the API.
-# To handle that, a similar configuration must be applied to the root resource that is built in to the REST API object:
-/*resource "aws_api_gateway_method" "lambda_method_root" {
-  rest_api_id   = aws_api_gateway_rest_api.lambda_api.id
-  resource_id   = aws_api_gateway_rest_api.lambda_api.root_resource_id
-  http_method   = "GET"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "lambda_integration_root" {
-  rest_api_id = aws_api_gateway_rest_api.lambda_api.id
-  resource_id = aws_api_gateway_method.lambda_method_root.resource_id
-  http_method = aws_api_gateway_method.lambda_method_root.http_method
-
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda_function.invoke_arn
-}*/
-
 /*resource "aws_api_gateway_domain_name" "example" {
   certificate_arn = var.certificate_arn
   domain_name     = var.domain_name

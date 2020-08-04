@@ -36,11 +36,3 @@ resource "aws_lambda_permission" "with_api_gateway" {
   # within the API Gateway "REST API".
   source_arn = "${aws_api_gateway_rest_api.lambda_api.execution_arn}/${local.lambda_stage}/GET/${var.api_gateway_path}"
 }
-
-resource "aws_lambda_permission" "with_alb" {
-  statement_id  = "AllowExecutionFromAlb"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda_function.arn
-  principal     = "elasticloadbalancing.amazonaws.com"
-  source_arn    = aws_lb_target_group.lb_tg.arn
-}
