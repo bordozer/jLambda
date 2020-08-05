@@ -23,7 +23,7 @@ variable "lambda_payload_filename" {
   default = "../../build/libs/jlambda.jar"
 }
 variable "lambda_function_handler" {
-  default = "com.bordozer.jlambda.handler.LambdaHandler"
+  default = "com.bordozer.sms.provider.jlambda.handler.LambdaHandler"
 }
 variable "lambda_runtime" {
   default = "java11"

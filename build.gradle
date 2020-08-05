@@ -60,7 +60,7 @@ targetCompatibility = JavaVersion.VERSION_11
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
-    implementation project(':bemobi-sms-sdk')
+    implementation project(':sms-provider-sdk')
 
     compile 'com.amazonaws:aws-lambda-java-core:1.2.0'
     compile 'com.amazonaws:aws-lambda-java-events:2.2.6'
@@ -69,7 +69,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.bordozer.jlambda.handler.LambdaHandler"
+        attributes "Main-Class": "com.bordozer.sms.provider.jlambda.handler.LambdaHandler"
     }
 
     from {
@@ -79,7 +79,7 @@ jar {
 task shadowJar(type: Jar) {
     zip64 true
     manifest {
-        attributes 'Main-Class': 'com.bordozer.jlambda.handler.LambdaHandler'
+        attributes 'Main-Class': 'com.bordozer.sms.provider.jlambda.handler.LambdaHandler'
     }
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar

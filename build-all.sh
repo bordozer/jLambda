@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-./gradlew clean :bemobi-sms-sdk:build shadowJar
+./gradlew clean :sms-provider-sdk:build shadowJar
