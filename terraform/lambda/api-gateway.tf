@@ -60,15 +60,11 @@ resource "aws_route53_record" "lambda_api_gateway_route53_record" {
   stage_name    = local.lambda_stage
   rest_api_id   = aws_api_gateway_rest_api.lambda_api_gateway.id
   deployment_id = aws_api_gateway_deployment.lambda_deploy.id
-  *//*access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.example.arn
-    format = ""
-  }*//*
 }
 
 resource "aws_api_gateway_method_settings" "s" {
   rest_api_id = aws_api_gateway_rest_api.lambda_api_gateway.id
-  stage_name  = aws_api_gateway_stage.lambda_stage.stage_name
+  stage_name  = local.lambda_stage
   method_path = "${aws_api_gateway_resource.lambda_api_gateway_resource.path_part}/${aws_api_gateway_method.lambda_api_gateway_method.http_method}"
 
   settings {
