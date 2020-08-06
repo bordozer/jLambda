@@ -55,15 +55,15 @@ resource "aws_route53_record" "lambda_api_gateway_route53_record" {
   }
 }
 
-resource "aws_api_gateway_stage" "lambda_stage" {
+/*resource "aws_api_gateway_stage" "lambda_stage" {
   depends_on = [aws_cloudwatch_log_group.example]
-  stage_name    = "dev"
+  stage_name    = local.lambda_stage
   rest_api_id   = aws_api_gateway_rest_api.lambda_api_gateway.id
   deployment_id = aws_api_gateway_deployment.lambda_deploy.id
-  /*access_log_settings {
+  *//*access_log_settings {
     destination_arn = aws_cloudwatch_log_group.example.arn
     format = ""
-  }*/
+  }*//*
 }
 
 resource "aws_api_gateway_method_settings" "s" {
@@ -75,7 +75,7 @@ resource "aws_api_gateway_method_settings" "s" {
     metrics_enabled = true
     logging_level   = "INFO"
   }
-}
+}*/
 
 resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
   api_id      = aws_api_gateway_rest_api.lambda_api_gateway.id
