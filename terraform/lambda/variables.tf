@@ -41,12 +41,15 @@ variable "lambda_health_check_uri" {
 variable "api_gateway_path" {
   default = "api"
 }
+variable "api_gateway_log_role_arn" {
+  default = "arn:aws:iam::899415655760:role/bordozer-api-gateway-role"
+}
 
 variable "cognito_region" {
   default = "us-east-1"
 }
 variable "cognito_user_pool_id" {
-  default = "us-east-1_vxmlSVIYo"
+  default = "us-east-1_iDYQKX4bW"
 }
 
 locals {
