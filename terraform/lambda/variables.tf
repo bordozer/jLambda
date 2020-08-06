@@ -6,6 +6,9 @@ variable "service_instance_name" {}
 variable "environment_name" {}
 variable "domain_name" {}
 
+variable "aws_account_id" {
+  default = "899415655760"
+}
 variable "region" {
   default = "eu-west-3"
 }
@@ -38,6 +41,13 @@ variable "lambda_health_check_uri" {
 // API Gateway
 variable "api_gateway_path" {
   default = "api"
+}
+
+variable "cognito_region" {
+  default = "us-east-1"
+}
+variable "cognito_user_pool_id" {
+  default = "us-east-1_vxmlSVIYo"
 }
 
 locals {

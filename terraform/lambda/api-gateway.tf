@@ -59,3 +59,14 @@ resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
   domain_name = aws_api_gateway_domain_name.lambda_api_gateway_domain.domain_name
 //  base_path   = var.api_gateway_path
 }
+
+resource "aws_api_gateway_authorizer" "lambda" {
+  name                              = "${local.lambda_function_name}-api-gateway-authorizer"
+  type                              = "COGNITO_USER_POOLS"
+  rest_api_id                       = aws_api_gateway_rest_api.lambda_api_gateway.id
+  authorizer_uri                    = aws_lambda_function.lambda_function.invoke_arn
+  authorizer_credentials            = aws_iam_role.lambda_iam_role.arn
+  authorizer_result_ttl_in_seconds  = 120
+  identity_source                   = "method.request.header.Authorization"
+  provider_arns                     = ["arn:aws:cognito-idp:${var.cognito_region}:${var.aws_account_id}:userpool/${var.cognito_user_pool_id}"]
+}
