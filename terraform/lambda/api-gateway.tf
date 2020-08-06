@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "lambda_api_gateway" {
-  name        = "tf-${var.service_instance_name}-api-gateway"
-  description = "${var.service_instance_name}: lambda API gateway"
+  name        = "${local.aws_service_name}-api-gateway"
+  description = "${local.service_instance_name}: lambda API gateway"
 
   tags = local.common_tags
 }
@@ -61,12 +61,12 @@ resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
 }
 
 resource "aws_api_gateway_authorizer" "lambda" {
-  name                              = "${local.lambda_function_name}-api-gateway-authorizer"
+  name                              = "${local.aws_service_name}-api-gateway-authorizer"
   type                              = "COGNITO_USER_POOLS"
   rest_api_id                       = aws_api_gateway_rest_api.lambda_api_gateway.id
-  authorizer_uri                    = aws_lambda_function.lambda_function.invoke_arn
-  authorizer_credentials            = aws_iam_role.lambda_iam_role.arn
-  authorizer_result_ttl_in_seconds  = 120
   identity_source                   = "method.request.header.Authorization"
   provider_arns                     = ["arn:aws:cognito-idp:${var.cognito_region}:${var.aws_account_id}:userpool/${var.cognito_user_pool_id}"]
+  //  authorizer_uri                    = aws_lambda_function.lambda_function.invoke_arn
+  //  authorizer_credentials            = aws_iam_role.lambda_iam_role.arn
+  //  authorizer_result_ttl_in_seconds  = 120
 }

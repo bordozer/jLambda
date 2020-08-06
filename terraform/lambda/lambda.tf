@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "lambda_function" {
-  function_name     = local.lambda_function_name
+  function_name     = "${local.aws_service_name}-function"
   runtime           = var.lambda_runtime
   filename          = var.lambda_payload_filename
 //  source_code_hash  = base64sha256(file(var.lambda_payload_filename))
@@ -15,7 +15,7 @@ resource "aws_lambda_function" "lambda_function" {
     aws_iam_role_policy.lambda_iam_policy,
     aws_iam_role_policy.logs_iam_policy
   ]
-  description       = "${var.service_instance_name}: test lambda function"
+  description       = "${local.service_instance_name}: lambda function"
 
   /*environment {
     variables = {

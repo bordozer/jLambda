@@ -2,7 +2,6 @@
 variable "service_name" {
   default = "jlambda"
 }
-variable "service_instance_name" {}
 variable "environment_name" {}
 variable "domain_name" {}
 
@@ -51,11 +50,12 @@ variable "cognito_user_pool_id" {
 }
 
 locals {
+  service_instance_name = "${var.service_name}-${var.environment_name}"
+  aws_service_name = "tf-${local.service_instance_name}"
+  lambda_stage = "${var.environment_name}-stage"
   common_tags = {
-    Name = var.service_instance_name
+    Name = local.service_instance_name
     ServiceName = var.service_name
     Environment = var.environment_name
   }
-  lambda_function_name = "tf-${var.service_instance_name}-function"
-  lambda_stage = "${var.environment_name}-stage"
 }

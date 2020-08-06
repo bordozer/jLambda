@@ -22,4 +22,4 @@ terraform init \
 
 #terraform plan
 
-terraform apply -var-file="env/${ENV}.tfvars" -auto-approve
+terraform apply -var-file="env/${ENV}.tfvars" -auto-approve -var="environment_name=${ENV}"
