@@ -2,7 +2,7 @@ resource "aws_lambda_function" "lambda_function" {
   function_name     = "${local.aws_service_name}-function"
   runtime           = var.lambda_runtime
   filename          = var.lambda_payload_filename
-//  source_code_hash  = base64sha256(file(var.lambda_payload_filename))
+  source_code_hash  = filebase64sha256(var.lambda_payload_filename)
 
   handler           = var.lambda_function_handler
   timeout           = 60
