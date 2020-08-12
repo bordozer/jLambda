@@ -30,12 +30,6 @@ variable "lambda_function_handler" {
 variable "lambda_runtime" {
   default = "java11"
 }
-variable "lambda_health_enabled" {
-  default = false
-}
-variable "lambda_health_check_uri" {
-  default = "/?health-check=yes"
-}
 variable "lambda_keep_warm_enabled" {
   default = false
 }
