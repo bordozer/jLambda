@@ -9,5 +9,5 @@ resource "aws_cloudwatch_event_target" "lambda_ping_target" {
   rule          = aws_cloudwatch_event_rule.lambda_ping.name
   target_id     = "${local.aws_service_name}-ping"
   arn           = aws_lambda_function.lambda_function.arn
-  input         = "{\"source\":\"lambda-auto-ping-event\"}"
+  input         = "{\"queryStringParameters\":{\"health-check\": \"yes\"}}"
 }

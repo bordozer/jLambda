@@ -21,20 +21,11 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
     public static final String QUERY_STRING_PARAMETERS = "queryStringParameters";
     public static final String HEALTH_CHECK = "health-check";
 
-    private static final String LAMBDA_AUTO_PING_EVENT = "lambda-auto-ping-event"; // set in terraform/lambda/events-rule.tf
-
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
         final Logger logger = AwsLogger.of(context.getLogger());
 
         logger.log(String.format("Lambda input: %s", JsonUtils.write(input)));
-
-        final var source = input.get("source");
-        if (LAMBDA_AUTO_PING_EVENT.equals(source)) {
-            final var response = createLambdaResponse(200, "I'm warm. Your lambda.");
-            logLambdaResponse(logger, response);
-            return response;
-        }
 
         @Nullable final var requestParameters = getRequestParameters(input);
         if (requestParameters == null) {
@@ -46,7 +37,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            final var response = createLambdaResponse(200, "Health check is OK :)");
+            final var response = createLambdaResponse(200, "Health check is OK");
             logLambdaResponse(logger, response);
             return response;
         }
