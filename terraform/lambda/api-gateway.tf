@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "lambda_api_gateway" {
-  name        = "${local.aws_service_name}-api-gateway"
+  name        = "${local.aws_service_name}-api-gateway-new"
   description = "${local.service_instance_name}: lambda API gateway"
 
   tags = local.common_tags

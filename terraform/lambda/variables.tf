@@ -36,6 +36,9 @@ variable "lambda_health_enabled" {
 variable "lambda_health_check_uri" {
   default = "/?health-check=yes"
 }
+variable "lambda_keep_warm_enabled" {
+  default = false
+}
 
 // API Gateway
 variable "api_gateway_path" {

@@ -37,7 +37,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
-            final var response = createLambdaResponse(200, "Health check is OK");
+            final var response = createLambdaResponse(200, "Health check is OK :)");
             logLambdaResponse(logger, response);
             return response;
         }
