@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.sdk.provider.bemobi.utils;
+package com.bordozer.sms.provider.sdk.utils;
 
 import com.google.common.io.Resources;
 import lombok.AccessLevel;

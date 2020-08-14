@@ -1,7 +1,7 @@
 package com.bordozer.sms.provider.jlambda.provider.bemobi;
 
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiParameters;
-import com.bordozer.sms.provider.sdk.provider.bemobi.utils.CommonUtils;
+import com.bordozer.sms.provider.sdk.utils.CommonUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

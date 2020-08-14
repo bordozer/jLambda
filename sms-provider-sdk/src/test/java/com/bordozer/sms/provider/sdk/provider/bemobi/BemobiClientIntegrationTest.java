@@ -2,7 +2,7 @@ package com.bordozer.sms.provider.sdk.provider.bemobi;
 
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiParameters;
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiRequest;
-import com.bordozer.sms.provider.sdk.provider.bemobi.utils.JsonUtils;
+import com.bordozer.sms.provider.sdk.utils.JsonUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

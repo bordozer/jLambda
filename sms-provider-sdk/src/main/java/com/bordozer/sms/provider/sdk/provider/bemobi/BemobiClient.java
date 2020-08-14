@@ -4,7 +4,7 @@ import com.bordozer.sms.provider.sdk.Logger;
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiParameters;
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiRequest;
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiResponse;
-import com.bordozer.sms.provider.sdk.provider.bemobi.utils.JsonUtils;
+import com.bordozer.sms.provider.sdk.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;

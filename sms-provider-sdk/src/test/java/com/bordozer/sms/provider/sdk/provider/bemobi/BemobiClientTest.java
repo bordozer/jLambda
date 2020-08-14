@@ -2,7 +2,7 @@ package com.bordozer.sms.provider.sdk.provider.bemobi;
 
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiParameters;
 import com.bordozer.sms.provider.sdk.provider.bemobi.model.BemobiRequest;
-import com.bordozer.sms.provider.sdk.provider.bemobi.utils.CommonUtils;
+import com.bordozer.sms.provider.sdk.utils.CommonUtils;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
