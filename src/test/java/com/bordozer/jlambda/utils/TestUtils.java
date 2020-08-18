@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.utils;
+package com.bordozer.jlambda.utils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import lombok.AccessLevel;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.bordozer.sms.provider.jlambda.handler.LambdaHandler.QUERY_STRING_PARAMETERS;
-import static com.bordozer.sms.provider.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
+import static com.bordozer.jlambda.handler.LambdaHandler.QUERY_STRING_PARAMETERS;
+import static com.bordozer.jlambda.utils.TestLambdaLogger.LAMBDA_LOGGER;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

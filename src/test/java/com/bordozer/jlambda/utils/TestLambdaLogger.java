@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.utils;
+package com.bordozer.jlambda.utils;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import lombok.extern.slf4j.Slf4j;

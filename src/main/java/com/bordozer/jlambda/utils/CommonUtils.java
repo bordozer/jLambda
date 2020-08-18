@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.utils;
+package com.bordozer.jlambda.utils;
 
 import com.google.common.io.Resources;
 import lombok.SneakyThrows;

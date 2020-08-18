@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.model;
+package com.bordozer.jlambda.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;

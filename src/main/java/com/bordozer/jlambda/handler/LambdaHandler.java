@@ -1,10 +1,10 @@
-package com.bordozer.sms.provider.jlambda.handler;
+package com.bordozer.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.bordozer.sms.provider.jlambda.model.LambdaResponse;
-import com.bordozer.sms.provider.jlambda.utils.JsonUtils;
+import com.bordozer.jlambda.model.LambdaResponse;
+import com.bordozer.jlambda.utils.JsonUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;

@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.model;
+package com.bordozer.jlambda.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.junit.jupiter.api.Test;

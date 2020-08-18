@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.annotation;
+package com.bordozer.jlambda.annotation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.meta.TypeQualifierDefault;

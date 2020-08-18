@@ -1,4 +1,4 @@
-package com.bordozer.sms.provider.jlambda.handler;
+package com.bordozer.jlambda.handler;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -7,17 +7,16 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.Collections;
 
-import static com.bordozer.sms.provider.jlambda.handler.LambdaHandler.HEALTH_CHECK;
-import static com.bordozer.sms.provider.jlambda.utils.CommonUtils.readResource;
-import static com.bordozer.sms.provider.jlambda.utils.TestUtils.getContext;
-import static com.bordozer.sms.provider.jlambda.utils.TestUtils.singleParameterMap;
+import static com.bordozer.jlambda.handler.LambdaHandler.HEALTH_CHECK;
+import static com.bordozer.jlambda.utils.CommonUtils.readResource;
+import static com.bordozer.jlambda.utils.TestUtils.getContext;
+import static com.bordozer.jlambda.utils.TestUtils.singleParameterMap;
 
 @Slf4j
 class LambdaHandlerTest {
 
     private static final String HEALTH_CHECK_EXPECTED_RESPONSE = expectedResponse(200, "Health check is OK");
-    private static final String MISSED_LAMBDA_PARAMETERS_EXPECTED_RESPONSE = expectedResponse(422, "Lambda's parameters should not be null");
-    private static final String MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE = expectedResponse(422, "ApiKey have to be provided as request parameter 'ApiKey'");
+    private static final String LAMBDA_EXPECTED_RESPONSE = expectedResponse(200, "Lambda invoke result");
 
     @Test
     @SneakyThrows
@@ -42,20 +41,7 @@ class LambdaHandlerTest {
         final var response = new LambdaHandler().handleRequest(map, getContext());
 
         // then
-        JSONAssert.assertEquals(MISSED_LAMBDA_PARAMETERS_EXPECTED_RESPONSE, response.toJSONString(), false);
-    }
-
-    @Test
-    @SneakyThrows
-    void shouldResponse422IfNoRequestParameters() {
-        // given
-        final var map = singleParameterMap("parameter", "value");
-
-        // when
-        final var response = new LambdaHandler().handleRequest(map, getContext());
-
-        // then
-        JSONAssert.assertEquals(MISSED_API_KEY_PARAMETER_EXPECTED_RESPONSE, response.toJSONString(), false);
+        JSONAssert.assertEquals(LAMBDA_EXPECTED_RESPONSE, response.toJSONString(), false);
     }
 
     private static String expectedResponse(final int responseCode, final String responseMessage) {
