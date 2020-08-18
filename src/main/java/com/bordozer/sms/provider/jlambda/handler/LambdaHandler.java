@@ -21,9 +21,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
         final var logger = context.getLogger();
-
         logger.log(String.format("Lambda input: %s", JsonUtils.write(input)));
-
         final var requestParameters = getRequestParameters(input);
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
@@ -33,13 +31,13 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             return response;
         }
 
-        final var response = new LambdaResponse(200, "Lambda invoke result");
+        final var response = createLambdaResponse(200, "Lambda invoke result");
         logLambdaResponse(logger, response);
         return response;
     }
 
-    private LambdaResponse createLambdaResponse(final int i, final String s) {
-        return new LambdaResponse(i, LambdaResponsePayload.of(s));
+    private LambdaResponse createLambdaResponse(final int responseCode, final String payload) {
+        return new LambdaResponse(responseCode, LambdaResponsePayload.of(payload));
     }
 
     private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
