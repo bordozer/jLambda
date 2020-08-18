@@ -25,7 +25,7 @@ variable "lambda_payload_filename" {
   default = "../../build/libs/jlambda.jar"
 }
 variable "lambda_function_handler" {
-  default = "com.bordozer.sms.provider.jlambda.handler.LambdaHandler"
+  default = "com.bordozer.jlambda.handler.LambdaHandler"
 }
 variable "lambda_runtime" {
   default = "java11"
@@ -46,7 +46,7 @@ variable "cognito_region" {
   default = "us-east-1"
 }
 variable "cognito_user_pool_id" {
-  default = "us-east-1_iDYQKX4bW"
+  default = "us-east-1_mSrgljal8"
 }
 
 locals {

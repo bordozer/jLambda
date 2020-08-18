@@ -17,13 +17,6 @@ resource "aws_lambda_function" "lambda_function" {
   ]
   description       = "${local.service_instance_name}: lambda function"
 
-  /*environment {
-    variables = {
-      SERVER_URL = "https://visual-guitar.org"
-      SERVER_PORT = "443"
-    }
-  }*/
-
   tags = local.common_tags
 }
 
