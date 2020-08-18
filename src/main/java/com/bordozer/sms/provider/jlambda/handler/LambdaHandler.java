@@ -1,20 +1,17 @@
 package com.bordozer.sms.provider.jlambda.handler;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.bordozer.sms.provider.jlambda.model.LambdaResponse;
-import com.bordozer.sms.provider.jlambda.provider.SmsProviderFactory;
 import com.bordozer.sms.provider.jlambda.utils.JsonUtils;
-import com.bordozer.sms.provider.sdk.Logger;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.Map;
-
-import static com.bordozer.sms.provider.sdk.provider.bemobi.BemobiClient.API_KEY_PARAM;
 
 public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONObject> {
 
@@ -23,17 +20,11 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
 
     @Override
     public JSONObject handleRequest(final Map<String, Object> input, final Context context) {
-        final Logger logger = AwsLogger.of(context.getLogger());
+        final var logger = context.getLogger();
 
         logger.log(String.format("Lambda input: %s", JsonUtils.write(input)));
 
-        @Nullable final var requestParameters = getRequestParameters(input);
-        if (requestParameters == null) {
-            final var response = createLambdaResponse(422, "Lambda's parameters should not be null");
-            logLambdaResponse(logger, response);
-            return response;
-        }
-        logger.log(String.format("Request parameters: \"%s\"", JsonUtils.write(requestParameters)));
+        final var requestParameters = getRequestParameters(input);
 
         @Nullable final var healthCheck = requestParameters.get(HEALTH_CHECK);
         if ("yes".equals(healthCheck)) {
@@ -42,15 +33,8 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             return response;
         }
 
-        @Nullable final var apiKey = requestParameters.get(API_KEY_PARAM);
-        if (StringUtils.isBlank(apiKey)) {
-            final var response = createLambdaResponse(422, String.format("ApiKey have to be provided as request parameter '%s'", API_KEY_PARAM));
-            logLambdaResponse(logger, response);
-            return response;
-        }
-
-        final var response = SmsProviderFactory.instance(logger).handle(requestParameters);
-        logger.log(String.format("Lambda response: %s", response.toJSONString()));
+        final var response = new LambdaResponse(200, "Lambda invoke result");
+        logLambdaResponse(logger, response);
         return response;
     }
 
@@ -58,15 +42,14 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
         return new LambdaResponse(i, LambdaResponsePayload.of(s));
     }
 
-    @Nullable
     private static Map<String, String> getRequestParameters(final Map<String, Object> input) {
         if (input.get(QUERY_STRING_PARAMETERS) == null) {
-            return null;
+            return Collections.emptyMap();
         }
         return (Map<String, String>) input.get("queryStringParameters");
     }
 
-    private void logLambdaResponse(final Logger logger, final LambdaResponse response) {
+    private void logLambdaResponse(final LambdaLogger logger, final LambdaResponse response) {
         logger.log(String.format("Lambda response: %s", response.toJSONString()));
     }
 
