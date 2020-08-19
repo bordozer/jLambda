@@ -36,9 +36,6 @@ variable "lambda_keep_warm_enabled" {
 }
 
 // API Gateway
-variable "endpoint_id" {
-  default = "vpce-0724885efce96a647"
-}
 variable "api_gateway_path" {
   default = "api"
 }
@@ -57,9 +54,12 @@ locals {
   service_instance_name = "${var.service_name}-${var.environment_name}"
   aws_service_name = "tf-${local.service_instance_name}"
   lambda_stage = "${var.environment_name}-stage"
+  api_gateway_name = "tf-api-gateway:${var.environment_name}-private-api-gateway"
   common_tags = {
-    Name = local.service_instance_name
-    ServiceName = var.service_name
-    Environment = var.environment_name
+    Name          = local.service_instance_name
+    ServiceName   = var.service_name
+    Environment   = var.environment_name
+    CreatedBy     = "Terraform"
+    GitRepoName   = "jlambda"
   }
 }

@@ -1,46 +1,18 @@
-resource "aws_api_gateway_rest_api" "lambda_api_gateway" {
-  name        = "${local.aws_service_name}-private-api-gateway"
-  description = "${local.service_instance_name}: lambda API gateway"
-
-  endpoint_configuration {
-    types = ["PRIVATE"]
-    vpc_endpoint_ids = [var.endpoint_id]
-  }
-
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": "execute-api:Invoke",
-            "Resource": "*"
-        }
-    ]
-}
-POLICY
-
-  tags = local.common_tags
-}
-
 resource "aws_api_gateway_resource" "lambda_api_gateway_resource" {
-  rest_api_id = aws_api_gateway_rest_api.lambda_api_gateway.id
-  parent_id   = aws_api_gateway_rest_api.lambda_api_gateway.root_resource_id
+  rest_api_id = data.aws_api_gateway_rest_api.gateway.id
+  parent_id   = data.aws_api_gateway_rest_api.gateway.root_resource_id
   path_part   = var.api_gateway_path
 }
 
 resource "aws_api_gateway_method" "lambda_api_gateway_method" {
-  rest_api_id   = aws_api_gateway_rest_api.lambda_api_gateway.id
+  rest_api_id   = data.aws_api_gateway_rest_api.gateway.id
   resource_id   = aws_api_gateway_resource.lambda_api_gateway_resource.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "lambda_api_gateway_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.lambda_api_gateway.id
+  rest_api_id             = data.aws_api_gateway_rest_api.gateway.id
   resource_id             = aws_api_gateway_resource.lambda_api_gateway_resource.id
   http_method             = aws_api_gateway_method.lambda_api_gateway_method.http_method
 
@@ -51,7 +23,7 @@ resource "aws_api_gateway_integration" "lambda_api_gateway_integration" {
 
 resource "aws_api_gateway_deployment" "lambda_deploy" {
   depends_on  = [aws_api_gateway_integration.lambda_api_gateway_integration]
-  rest_api_id = aws_api_gateway_rest_api.lambda_api_gateway.id
+  rest_api_id = data.aws_api_gateway_rest_api.gateway.id
   stage_name  = local.lambda_stage
 }
 
@@ -61,7 +33,7 @@ resource "aws_api_gateway_domain_name" "lambda_api_gateway_domain" {
 }
 
 resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
-  api_id      = aws_api_gateway_rest_api.lambda_api_gateway.id
+  api_id      = data.aws_api_gateway_rest_api.gateway.id
   stage_name  = aws_api_gateway_deployment.lambda_deploy.stage_name
   domain_name = aws_api_gateway_domain_name.lambda_api_gateway_domain.domain_name
 }
