@@ -1,4 +1,3 @@
 #!/bin/bash
 
-
-./gradlew clean shadowJar
+JAVA_HOME=/opt/java/jdk11 && ./gradlew clean shadowJar

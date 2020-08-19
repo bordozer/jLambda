@@ -25,4 +25,16 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
   depends_on  = [aws_api_gateway_integration.lambda_api_gateway_integration]
   rest_api_id = data.aws_api_gateway_rest_api.gateway.id
   stage_name  = local.lambda_stage
+  description = "Deploy of ${local.service_instance_name}"
+  stage_description = "Environment: ${var.environment_name}"
+
+  /*triggers = {
+    redeployment = sha1(join(",", list(
+    jsonencode(aws_api_gateway_integration.example),
+    )))
+  }*/
+
+  /*lifecycle {
+    create_before_destroy = true
+  }*/
 }

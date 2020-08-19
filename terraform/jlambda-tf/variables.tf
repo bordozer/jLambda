@@ -35,7 +35,7 @@ locals {
   aws_service_name        = "tf-${local.service_instance_name}"
   lambda_stage            = local.service_instance_name
   api_gateway_name        = "tf-api-gateway:${var.environment_name}-private-api-gateway"
-  api_gateway_path        =  local.service_instance_name // Resources: /instance-name/GET
+  api_gateway_path        =  "lambda"
 
   common_tags = {
     Name          = local.service_instance_name
