@@ -26,14 +26,3 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
   rest_api_id = data.aws_api_gateway_rest_api.gateway.id
   stage_name  = local.lambda_stage
 }
-
-resource "aws_api_gateway_domain_name" "lambda_api_gateway_domain" {
-  certificate_arn = var.certificate_arn
-  domain_name     = var.domain_name
-}
-
-resource "aws_api_gateway_base_path_mapping" "api_gateway_stage_mapping" {
-  api_id      = data.aws_api_gateway_rest_api.gateway.id
-  stage_name  = aws_api_gateway_deployment.lambda_deploy.stage_name
-  domain_name = aws_api_gateway_domain_name.lambda_api_gateway_domain.domain_name
-}
