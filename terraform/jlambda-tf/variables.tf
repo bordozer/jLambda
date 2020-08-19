@@ -35,14 +35,9 @@ variable "lambda_keep_warm_enabled" {
   default = false
 }
 
-// API Gateway
 variable "api_gateway_path" {
   default = "api"
 }
-variable "api_gateway_log_role_arn" {
-  default = "arn:aws:iam::899415655760:role/bordozer-api-gateway-role"
-}
-
 variable "cognito_region" {
   default = "us-east-1"
 }
@@ -51,10 +46,11 @@ variable "cognito_user_pool_id" {
 }
 
 locals {
-  service_instance_name = "${var.service_name}-${var.environment_name}"
-  aws_service_name = "tf-${local.service_instance_name}"
-  lambda_stage = "${var.environment_name}-stage"
-  api_gateway_name = "tf-api-gateway:${var.environment_name}-private-api-gateway"
+  service_instance_name   = "${var.service_name}-${var.environment_name}"
+  aws_service_name        = "tf-${local.service_instance_name}"
+  lambda_stage            = local.service_instance_name
+  api_gateway_name        = "tf-api-gateway:${var.environment_name}-private-api-gateway"
+
   common_tags = {
     Name          = local.service_instance_name
     ServiceName   = var.service_name
