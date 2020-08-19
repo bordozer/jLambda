@@ -5,6 +5,7 @@ variable "service_name" {
 variable "environment_name" {}
 variable "domain_name" {}
 
+/* AWS */
 variable "aws_account_id" {
   default = "899415655760"
 }
@@ -35,6 +36,9 @@ variable "lambda_keep_warm_enabled" {
 }
 
 // API Gateway
+variable "endpoint_id" {
+  default = "vpce-0724885efce96a647"
+}
 variable "api_gateway_path" {
   default = "api"
 }
