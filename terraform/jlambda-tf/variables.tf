@@ -32,9 +32,9 @@ variable "lambda_keep_warm_enabled" {
 locals {
   service_instance_name   = "${var.service_name}-${var.environment_name}"
   aws_service_name        = "tf-${local.service_instance_name}"
-  lambda_stage            = local.service_instance_name
+  lambda_stage            = "${local.service_instance_name}-stage"
   api_gateway_name        = "tf-api-gateway:${var.environment_name}-private-api-gateway"
-  api_gateway_path        =  local.service_instance_name
+  api_gateway_path        =  "${local.service_instance_name}-api"
 
   common_tags = {
     Name          = local.service_instance_name
