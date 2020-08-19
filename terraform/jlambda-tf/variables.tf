@@ -3,7 +3,6 @@ variable "service_name" {
   default = "jlambda"
 }
 variable "environment_name" {}
-variable "domain_name" {}
 
 /* AWS */
 variable "aws_account_id" {
