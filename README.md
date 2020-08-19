@@ -1,15 +1,9 @@
-# AWS lambda + Terraform + Bemobi SMS client SDK
-
-Bemobi - third party service allows sending SMS to some operators
+# AWS lambda + Terraform
 
 ## Build artifacts
 To create app artifact run from project root
 ``` 
 ./build-all.sh
-```
-Bemobi SMS SDK artifact is in the folder (http client for Bemobi SMS sending)
-```
-bemobi-sms-sdk/build/libs/bemobi-sms-sdk.jar
 ```
 AWS lambda function artifact is in folder
 ```
@@ -17,7 +11,7 @@ build/libs/jlambda.jar
 ```
 
 ## Deploy to AWS
-Terraform is user to deploy app to AWS.  
+Terraform is user to deploy app;ication to AWS.  
 There are two possible envs:
  - test
  - prod
@@ -47,12 +41,17 @@ or (no confirmation)
 You probably do not have Bemobi account so testing always is going to return "Bad request"  
 Note that *ApiKey* should be HEX-digit (1056E0F39CD97BE9AE45A is just an example)
 ```
-https://test.jlambda.visual-guitar.org?ApiKey=1056E0F39CD97BE9AE45A&AccountID=account_id&Msisdn=phone&SiteID=site_id&Message=hi_all&OPXUserID=
+https://test.jlambda.visual-guitar.org/api
 ```
 Example response
 ```json 
 {
-    "statusCode": 0,
-    "reason": "Bad Request"
+    "status": "OK",
+    "value": "Lambda invoke result"
+}
+```
+```json 
+{
+    "message": "Forbidden"
 }
 ```
