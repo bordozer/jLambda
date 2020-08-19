@@ -38,3 +38,15 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
     create_before_destroy = true
   }*/
 }
+
+resource "aws_api_gateway_method_settings" "s" {
+  rest_api_id = data.aws_api_gateway_rest_api.gateway.id
+  stage_name  = aws_api_gateway_deployment.lambda_deploy.stage_name
+  method_path = "${aws_api_gateway_resource.lambda_api_gateway_resource.path_part}/${aws_api_gateway_method.lambda_api_gateway_method.http_method}"
+
+  settings {
+    metrics_enabled       = true
+    logging_level         = "INFO"
+    data_trace_enabled    = true
+  }
+}
