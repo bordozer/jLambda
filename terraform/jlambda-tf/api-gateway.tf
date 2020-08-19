@@ -1,7 +1,7 @@
 resource "aws_api_gateway_resource" "lambda_api_gateway_resource" {
   rest_api_id = data.aws_api_gateway_rest_api.gateway.id
   parent_id   = data.aws_api_gateway_rest_api.gateway.root_resource_id
-  path_part   = var.api_gateway_path
+  path_part   = local.api_gateway_path
 }
 
 resource "aws_api_gateway_method" "lambda_api_gateway_method" {

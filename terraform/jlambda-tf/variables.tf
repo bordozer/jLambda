@@ -35,21 +35,12 @@ variable "lambda_keep_warm_enabled" {
   default = false
 }
 
-variable "api_gateway_path" {
-  default = "api"
-}
-variable "cognito_region" {
-  default = "us-east-1"
-}
-variable "cognito_user_pool_id" {
-  default = "us-east-1_mSrgljal8"
-}
-
 locals {
   service_instance_name   = "${var.service_name}-${var.environment_name}"
   aws_service_name        = "tf-${local.service_instance_name}"
   lambda_stage            = local.service_instance_name
   api_gateway_name        = "tf-api-gateway:${var.environment_name}-private-api-gateway"
+  api_gateway_path        = local.service_instance_name
 
   common_tags = {
     Name          = local.service_instance_name
