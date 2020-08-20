@@ -31,7 +31,7 @@ public class LambdaHandler implements RequestHandler<Map<String, Object>, JSONOb
             return response;
         }
 
-        final var response = createLambdaResponse(200, "Lambda invoke result");
+        final var response = createLambdaResponse(200, "JLambda invoke result");
         logLambdaResponse(logger, response);
         return response;
     }
