@@ -17,7 +17,16 @@ resource "aws_lambda_function" "lambda_function" {
   ]
   description       = "${local.service_instance_name}: lambda function"
 
-  tags = local.common_tags
+  tags = {
+    Name            = local.service_instance_name
+    ServiceName     = var.service_name
+    Environment     = var.environment
+    CreatedBy       = "Terraform"
+    GitRepoName     = var.git_repo_name
+    GitRepo         = var.git_repo_name
+    GitBranch       = var.git_branch
+    GitHash         = var.git_hash
+  }
 }
 
 resource "aws_lambda_permission" "with_api_gateway" {

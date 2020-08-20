@@ -1,6 +1,10 @@
 # Service
 variable "service_name" {}
-variable "environment_name" {}
+variable "environment" {}
+
+variable "git_hash" {}
+variable "git_branch" {}
+variable "git_repo_name" {}
 
 /* AWS */
 variable "aws_account_id" {
@@ -28,17 +32,17 @@ variable "lambda_keep_warm_enabled" {
 }
 
 locals {
-  service_instance_name   = "${var.service_name}-${var.environment_name}"
+  service_instance_name   = "${var.service_name}-${var.environment}"
   aws_service_name        = "tf-${local.service_instance_name}"
   lambda_stage            = "${local.service_instance_name}-stage"
-  api_gateway_name        = "tf-api-gateway:${var.environment_name}-private-api-gateway"
+  api_gateway_name        = "tf-api-gateway:${var.environment}-private-api-gateway"
   api_gateway_path        =  "${local.service_instance_name}-api"
 
   common_tags = {
-    Name          = local.service_instance_name
-    ServiceName   = var.service_name
-    Environment   = var.environment_name
-    CreatedBy     = "Terraform"
-    GitRepoName   = "jlambda"
+    Name            = local.service_instance_name
+    ServiceName     = var.service_name
+    Environment     = var.environment
+    CreatedBy       = "Terraform"
+    GitRepoName     = var.git_repo_name
   }
 }

@@ -26,7 +26,7 @@ resource "aws_api_gateway_deployment" "lambda_deploy" {
   rest_api_id = data.aws_api_gateway_rest_api.gateway.id
   stage_name  = local.lambda_stage
   description = "Deploy of ${local.service_instance_name}"
-  stage_description = "Environment: ${var.environment_name}"
+  stage_description = "Environment: ${var.environment}"
 
   /*triggers = {
     redeployment = sha1(join(",", list(
