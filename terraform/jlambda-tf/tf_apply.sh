@@ -15,6 +15,11 @@ fi
 
 echo -e "Environment '${YELLOW}${ENV}${DEFAULT}' is going to be deployed to AWS"
 
+GIT_HASH=$(git rev-parse --short HEAD)
+GIT_BRANCH=$(git branch --show-current)
+GIT_REPO_NAME=$(basename `git rev-parse --show-toplevel`)
+echo -e "Git: ${GIT_BRANCH} (${GIT_HASH})"
+
 terraform -version
 
 terraform init \
@@ -22,4 +27,9 @@ terraform init \
 
 #terraform plan
 
-terraform apply -var-file="env/${ENV}.tfvars" -auto-approve -var="environment_name=${ENV}"
+terraform apply -var-file="env/${ENV}.tfvars" -auto-approve \
+  -var="service_name=${SERVICE_NAME}" \
+  -var="environment_name=${ENV}" \
+  -var="git_branch=${GIT_HASH}" \
+  -var="git_hash=${GIT_BRANCH}" \
+  -var="git_repo_name=${GIT_REPO_NAME}"

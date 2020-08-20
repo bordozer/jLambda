@@ -1,7 +1,5 @@
 # Service
-variable "service_name" {
-  default = "jlambda"
-}
+variable "service_name" {}
 variable "environment_name" {}
 
 /* AWS */
